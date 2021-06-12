@@ -36,9 +36,20 @@ const styles = EStyleSheet.create({
 
 const LandingOptionsPage = (props: LandingProps): JSX.Element => (
   <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-    <Text style={styles.baseText}>Please select a version:</Text>
-    <Components.Button style={styles.button} onPress={() => {}}>Online</Components.Button>
-    <Components.Button style={styles.button} onPress={() => {}}>Offline</Components.Button>
+    <Text style={styles.baseText}>
+      Please select a version:
+    </Text>
+    <Components.Button
+      style={styles.button}
+      onPress={() => {
+        props.navigation.navigate('Login');
+      }}
+    >
+      Online
+    </Components.Button>
+    <Components.Button style={styles.button} onPress={() => {}}>
+      Offline
+    </Components.Button>
   </ScrollView>
 );
 

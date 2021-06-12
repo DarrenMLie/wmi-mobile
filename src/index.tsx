@@ -1,7 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { LandingStackParamList } from 'navigatorTypes';
-import OptionsPage from 'pages/optionsPage';
+import Options from 'pages/options';
+import Login from 'pages/login';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { registerRootComponent } from 'expo';
 import React from 'react';
@@ -40,7 +41,8 @@ export default class WhereIsMyItem extends React.Component<ExpoProps> {
               headerShown: false,
             }}
           >
-            <LandingStack.Screen name="Options" component={OptionsPage} />
+            <LandingStack.Screen name="Options" component={Options} />
+            <LandingStack.Screen name="Login" component={Login} />
           </LandingStack.Navigator>
         </NavigationContainer>
       </View>

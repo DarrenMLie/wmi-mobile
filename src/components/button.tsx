@@ -36,6 +36,7 @@ interface ButtonProps {
   onPress: (event: GestureResponderEvent) => void;
   children: React.ReactNode;
   style?: StyleProp<TouchableOpacity>;
+  textStyle?: StyleProp<Text>;
 }
 
 const Button = (props: ButtonProps): JSX.Element => (
@@ -47,7 +48,10 @@ const Button = (props: ButtonProps): JSX.Element => (
     ]}
   >
     <View style={styles.buttonContainer}>
-      <Text style={styles.text}>
+      <Text style={[
+        styles.text,
+        props.textStyle,
+      ]}>
         {props.children}
       </Text>
     </View>
