@@ -40,6 +40,9 @@ class Login extends React.Component<LoginProps> {
           callback={this.props.navigation.goBack}
         />
         <Components.MainContainer>
+          <Components.Header
+            title='Welcome back!'
+          />
           <Components.Textbox
             fieldName="Email"
             isRequired
