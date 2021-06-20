@@ -1,11 +1,10 @@
 import React from 'react';
-import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import { ScrollView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Components from 'components';
 import { LandingStackParamList } from 'navigatorTypes';
 import { StackNavigationProp } from '@react-navigation/stack';
 import COLOR from 'constants/color';
-import { FontAwesome5 } from '@expo/vector-icons';
 
 type NavigationProp = StackNavigationProp<LandingStackParamList, 'Login'>;
 interface LoginProps {
@@ -36,18 +35,11 @@ class Login extends React.Component<LoginProps> {
 
   render(): React.ReactNode {
     return (
-      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      <ScrollView style={styles.container}>
+        <Components.NavigationBar
+          callback={this.props.navigation.goBack}
+        />
         <Components.MainContainer>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={this.props.navigation.goBack}
-          >
-            <FontAwesome5
-              color={COLOR.black}
-              name={'arrow-left'}
-              size={20}
-            />
-          </TouchableOpacity>
           <Components.Textbox
             fieldName="Email"
             isRequired
