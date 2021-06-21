@@ -10,13 +10,13 @@ interface headersType {
 export async function makeRequest<T>(method: Method, url: string, body: T | null = null): Promise<AxiosRequestConfig> {
   const jwt = await SecureStore.getItem('jwt');
   const headers: headersType = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    };
-    if (jwt) {
-      headers['Authorization'] = 'Bearer ' + jwt
-    }
-  console.log('jwt', jwt);
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  };
+
+  if (jwt) {
+    headers['Authorization'] = 'Bearer ' + jwt
+  }
 
   const options: AxiosRequestConfig = {
     method,
