@@ -11,6 +11,7 @@ module.exports = {
         'clients': './src/clients',
         'utils': './src/utils',
         'models': './src/models',
+        'reduxActions': './src/reduxActions',
       }
     }],
     ['module:react-native-dotenv', {

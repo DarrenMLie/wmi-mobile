@@ -3,6 +3,8 @@ import * as HttpHelper from 'utils/httpHelper';
 import axios from 'axios';
 import { SignInForm } from 'models/auth';
 import SecureStore from 'utils/secureStore';
+import { getStore } from 'reduxActions/store';
+import { updateLoginState } from 'reduxActions/auth/authActions';
 
 class AuthClient {
   baseUrl: string;
@@ -20,12 +22,16 @@ class AuthClient {
   }
 
   async signIn(form: SignInForm): Promise<void> {
-    const request = HttpHelper.makeRequest('POST', this.signInUrl(), form);
+    const request = await HttpHelper.makeRequest('POST', this.signInUrl(), form);
 
     try {
-      const response = await axios(request); 
+      const response = await axios(request);
       SecureStore.setItem('jwt', response.data.token)
+
+      const store = getStore();
+      store.dispatch(updateLoginState(true));
     } catch (error) {
+      console.log(error);
       if (error.response) {
         console.log(error.response.data);
       }
