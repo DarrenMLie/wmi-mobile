@@ -6,6 +6,12 @@ import COLOR from 'constants/color';
 import { Item } from 'models/item';
 import ItemServiceClient from 'clients/itemService';
 import { FontAwesome } from '@expo/vector-icons';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { DrawerStackParamList } from 'navigatorTypes';
+
+interface ItemListProps {
+  navigation: DrawerNavigationProp<DrawerStackParamList, 'ItemList'>;
+}
 
 interface ItemListState {
   items: Item[],
@@ -45,8 +51,8 @@ const styles = EStyleSheet.create({
   }
 });
 
-class ItemList extends React.Component<{}, ItemListState> {
-  constructor(props: {}) {
+class ItemList extends React.Component<ItemListProps, ItemListState> {
+  constructor(props: ItemListProps) {
     super(props);
 
     this.state = {
@@ -97,7 +103,10 @@ class ItemList extends React.Component<{}, ItemListState> {
   render(): React.ReactNode {
     return (
       <View style={styles.container}>
-        <Components.StatusBar />
+        <Components.NavigationBar
+          icon="bars"
+          callback={this.props.navigation.toggleDrawer}
+        />
         <FlatList
           contentContainerStyle={styles.list}
           data={this.state.items}

@@ -67,6 +67,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     return (
       <ScrollView style={styles.container}>
         <Components.NavigationBar
+          icon="arrow-left"
           callback={this.props.navigation.goBack}
         />
         <Components.MainContainer>

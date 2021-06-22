@@ -7,11 +7,14 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Options from 'pages/options';
 import Login from 'pages/login';
 import List from 'pages/itemList';
+import { Dispatch }  from 'redux';
+import Components from 'components';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { LandingStackParamList, DrawerStackParamList } from 'navigatorTypes';
 
 interface AppProps {
+  dispatch: Dispatch;
   isAuthenticated: boolean;
 }
 
@@ -31,6 +34,7 @@ class App extends React.Component<AppProps> {
         <NavigationContainer>
           {this.props.isAuthenticated ? (
             <DrawerStack.Navigator
+              drawerContent={() => (<Components.Drawer />)}
               initialRouteName="ItemList"
             >
               <DrawerStack.Screen name="ItemList" component={List} />

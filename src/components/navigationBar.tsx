@@ -11,6 +11,7 @@ import COLOR from 'constants/color';
 import StatusBar from './statusBar';
 
 interface NavigationBarProps {
+  icon: string;
   callback?: () => void;
 }
 
@@ -43,7 +44,7 @@ class NavigationBar extends React.Component<NavigationBarProps> {
           >
             <FontAwesome5
               color={COLOR.darkCyan}
-              name='arrow-left'
+              name={this.props.icon}
               size={20}
             />
           </TouchableOpacity>

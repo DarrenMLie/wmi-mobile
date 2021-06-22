@@ -4,6 +4,7 @@ import MainContainer from './mainContainer';
 import NavigationBar from './navigationBar';
 import Header from './header';
 import StatusBar from './statusBar';
+import Drawer from './drawer';
 
 export default {
   Button,
@@ -12,4 +13,5 @@ export default {
   NavigationBar,
   Header,
   StatusBar,
+  Drawer,
 };
