@@ -10,7 +10,7 @@ import List from 'pages/itemList';
 import { Dispatch }  from 'redux';
 import Components from 'components';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentComponentProps } from '@react-navigation/drawer';
 import { LandingStackParamList, DrawerStackParamList } from 'navigatorTypes';
 
 interface AppProps {
@@ -28,13 +28,21 @@ const styles = EStyleSheet.create({
 });
 
 class App extends React.Component<AppProps> {
+  renderDrawer(props: DrawerContentComponentProps): React.ReactNode {
+    return (
+      <Components.Drawer
+        navigationProps={props}
+      />
+    );
+  }
+
   render(): React.ReactNode {
     return (
       <View style={styles.mainContainer}>
         <NavigationContainer>
           {this.props.isAuthenticated ? (
             <DrawerStack.Navigator
-              drawerContent={() => (<Components.Drawer />)}
+              drawerContent={this.renderDrawer}
               initialRouteName="ItemList"
             >
               <DrawerStack.Screen name="ItemList" component={List} />
