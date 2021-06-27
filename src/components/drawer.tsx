@@ -7,7 +7,6 @@ import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { FontAwesome5 } from '@expo/vector-icons';
 import COLOR from 'constants/color';
-import Constants from 'expo-constants';
 
 const styles = EStyleSheet.create({
   upperContainer: {
@@ -49,26 +48,32 @@ const navigationList = [
   {
     icon: 'search',
     text: 'Browse my items',
+    page: 'ItemList'
   },
   {
     icon: 'plus',
     text: 'New item',
+    page: ''
   },
   {
     icon: 'sync',
-    text: 'Backup & Sync'
+    text: 'Backup & Sync',
+    page: ''
   },
   {
     icon: 'comments',
-    text: 'Feedback'
+    text: 'Feedback',
+    page: ''
   },
   { 
     icon: 'user-circle',
     text: 'Me',
+    page: 'MyProfile'
   },
   {
     icon: 'sign-out-alt',
-    text: 'Logout'
+    text: 'Logout',
+    page: ''
   },
 ];
 
@@ -104,6 +109,9 @@ class Drawer extends React.Component<DrawerProps> {
         {navigationList.map(item => (
           <TouchableOpacity
             style={styles.navigationItem}
+            onPress={() => {
+              this.props.navigationProps.navigation.navigate(item.page);
+            }}
           >
             <FontAwesome5
               color={COLOR.darkCyan}

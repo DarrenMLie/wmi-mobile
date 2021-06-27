@@ -7,6 +7,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Options from 'pages/options';
 import Login from 'pages/login';
 import List from 'pages/itemList';
+import MyProfile from 'pages/myProfile';
 import { Dispatch }  from 'redux';
 import Components from 'components';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -46,6 +47,7 @@ class App extends React.Component<AppProps> {
               initialRouteName="ItemList"
             >
               <DrawerStack.Screen name="ItemList" component={List} />
+              <DrawerStack.Screen name="MyProfile" component={MyProfile} />
             </DrawerStack.Navigator>
           ) : (
             <LandingStack.Navigator
