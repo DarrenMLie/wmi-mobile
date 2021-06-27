@@ -7,6 +7,7 @@ import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { FontAwesome5 } from '@expo/vector-icons';
 import COLOR from 'constants/color';
+import Constants from 'expo-constants';
 
 const styles = EStyleSheet.create({
   upperContainer: {

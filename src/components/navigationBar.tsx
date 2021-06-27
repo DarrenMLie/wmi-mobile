@@ -1,9 +1,7 @@
 import React from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
-  StyleProp,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -24,10 +22,10 @@ const styles = EStyleSheet.create({
     padding: '1rem',
   },
   navigationTouchable: {
+    padding: '0.375rem',
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'center',
-    minWidth: '10%',
   },
 });
 
