@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View, Text, ListRenderItemInfo, Image } from 'react-native';
+import { FlatList, View, Text, ListRenderItemInfo, Image, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Components from 'components';
 import COLOR from 'constants/color';
@@ -7,10 +7,15 @@ import { Item } from 'models/item';
 import ItemServiceClient from 'clients/itemService';
 import { FontAwesome } from '@expo/vector-icons';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { DrawerStackParamList } from 'navigatorTypes';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { DrawerStackParamList, ItemStackParamList } from 'navigatorTypes';
+import { CompositeNavigationProp } from '@react-navigation/native';
 
 interface ItemListProps {
-  navigation: DrawerNavigationProp<DrawerStackParamList, 'ItemList'>;
+  navigation: CompositeNavigationProp<
+    DrawerNavigationProp<DrawerStackParamList, 'ItemList'>,
+    StackNavigationProp<ItemStackParamList, 'ItemList'>
+  >;
 }
 
 interface ItemListState {
@@ -68,35 +73,30 @@ class ItemList extends React.Component<ItemListProps, ItemListState> {
 
   renderItem = ({ item }: ListRenderItemInfo<Item>): React.ReactElement => {
     return (
-      <View style={styles.itemContainer}>
-        <Image
-          style={styles.thumbnail}
-          source={{ uri: 'https://place-hold.it/60x60' }}
-        />
-        <View>
-        <Text style={styles.name}>
-          {item.name}
-        </Text>
-        <Text style={{ color: COLOR.darkCyan }}>
-          {item.notes}
-        </Text>
+      <TouchableOpacity
+        onPress={() => { this.props.navigation.navigate('ItemView', { id: item.id }); }}
+      >
+        <View style={styles.itemContainer}>
+          <Image
+            style={styles.thumbnail}
+            source={{ uri: 'https://place-hold.it/60x60' }}
+          />
+          <View>
+          <Text style={styles.name}>
+            {item.name}
+          </Text>
+          <Text style={{ color: COLOR.darkCyan }}>
+            {item.notes}
+          </Text>
+          </View>
+          <FontAwesome
+            color={COLOR.darkCyan}
+            name={item.isFavorite ? 'heart' : 'heart-o'}
+            size={20}
+            style={styles.heart}
+          />
         </View>
-        {item.isFavorite ? (
-          <FontAwesome
-            color={COLOR.darkCyan}
-            name='heart'
-            size={20}
-            style={styles.heart}
-          />
-        ) : (
-          <FontAwesome
-            color={COLOR.darkCyan}
-            name='heart-o'
-            size={20}
-            style={styles.heart}
-          />
-        )}
-      </View>
+      </TouchableOpacity>
     );
   }
 

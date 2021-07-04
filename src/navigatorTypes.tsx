@@ -7,3 +7,10 @@ export type DrawerStackParamList = {
   ItemList: undefined;
   MyProfile: undefined;
 }
+
+export type ItemStackParamList = {
+  ItemList: undefined;
+  ItemView: {
+    id: number;
+  };
+}

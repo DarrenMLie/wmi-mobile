@@ -7,12 +7,13 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Options from 'pages/options';
 import Login from 'pages/login';
 import List from 'pages/itemList';
+import ItemView from 'pages/item/itemView';
 import MyProfile from 'pages/myProfile';
 import { Dispatch }  from 'redux';
 import Components from 'components';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerContentComponentProps } from '@react-navigation/drawer';
-import { LandingStackParamList, DrawerStackParamList } from 'navigatorTypes';
+import { LandingStackParamList, DrawerStackParamList, ItemStackParamList } from 'navigatorTypes';
 
 interface AppProps {
   dispatch: Dispatch;
@@ -21,6 +22,7 @@ interface AppProps {
 
 const LandingStack = createStackNavigator<LandingStackParamList>();
 const DrawerStack = createDrawerNavigator<DrawerStackParamList>();
+const ItemStack = createStackNavigator<ItemStackParamList>();
 
 const styles = EStyleSheet.create({
   mainContainer: {
@@ -37,6 +39,19 @@ class App extends React.Component<AppProps> {
     );
   }
 
+  renderItemManager = () => {
+    return (
+      <ItemStack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <ItemStack.Screen name="ItemList" component={List} />
+        <ItemStack.Screen name="ItemView" component={ItemView} />
+      </ItemStack.Navigator>
+    );
+  }
+
   render(): React.ReactNode {
     return (
       <View style={styles.mainContainer}>
@@ -46,7 +61,7 @@ class App extends React.Component<AppProps> {
               drawerContent={this.renderDrawer}
               initialRouteName="ItemList"
             >
-              <DrawerStack.Screen name="ItemList" component={List} />
+              <DrawerStack.Screen name="ItemList" component={this.renderItemManager} />
               <DrawerStack.Screen name="MyProfile" component={MyProfile} />
             </DrawerStack.Navigator>
           ) : (

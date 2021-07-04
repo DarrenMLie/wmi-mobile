@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Components from 'components';
 import COLOR from 'constants/color';
 import { Profile } from 'models/user';
 import UserClient from 'clients/user';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerStackParamList } from 'navigatorTypes';
 
@@ -34,7 +34,10 @@ const styles = EStyleSheet.create({
   username: {
     color: COLOR.darkCyan,
     fontStyle: 'italic',
-  }
+  },
+  navigationTouchable: {
+    padding: '0.375rem',
+  },
 });
 
 class MyProfile extends React.Component<MyProfileProps, MyProfileState> {
@@ -60,6 +63,30 @@ class MyProfile extends React.Component<MyProfileProps, MyProfileState> {
         <Components.NavigationBar
           icon="bars"
           callback={this.props.navigation.toggleDrawer}
+          rightPanel={(
+            <>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.navigationTouchable}
+            >
+              <FontAwesome5
+                color={COLOR.darkCyan}
+                name="edit"
+                size={20}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.navigationTouchable}
+            >
+              <FontAwesome5
+                color={COLOR.darkCyan}
+                name="bell"
+                size={20}
+              />
+            </TouchableOpacity>
+            </>
+          )}
         />
         {profile && (
           <View style={styles.content}>

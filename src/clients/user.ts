@@ -18,8 +18,29 @@ class UserClient {
     return `${this.baseUrl}/user/my-profile`;
   }
 
+  updateMyProfileUrl(): string {
+    return `${this.baseUrl}/user/my-profile`;
+  }
+
   async getMyProfile(): Promise<Profile> {
     const request = await HttpHelper.makeRequest('GET', this.getMyProfileUrl(), {});
+
+    try {
+      const response: AxiosResponse<{ profile: Profile }> = await axios(request);
+      return response.data.profile;
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        console.log(error.response.data);
+        throw error.response.data;
+      } else {
+        throw 'Unknown error'
+      }
+    }
+  }
+
+  async updateMyProfile(): Promise<Profile> {
+    const request = await HttpHelper.makeRequest('PUT', this.getMyProfileUrl(), {});
 
     try {
       const response: AxiosResponse<{ profile: Profile }> = await axios(request);

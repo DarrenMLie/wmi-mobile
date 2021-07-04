@@ -11,6 +11,7 @@ import StatusBar from './statusBar';
 interface NavigationBarProps {
   icon: string;
   callback?: () => void;
+  rightPanel?: React.ReactNode;
 }
 
 const styles = EStyleSheet.create({
@@ -23,10 +24,10 @@ const styles = EStyleSheet.create({
   },
   navigationTouchable: {
     padding: '0.375rem',
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
   },
+  rightPanel: {
+    flexDirection: 'row',
+  }
 });
 
 class NavigationBar extends React.Component<NavigationBarProps> {
@@ -46,6 +47,9 @@ class NavigationBar extends React.Component<NavigationBarProps> {
               size={20}
             />
           </TouchableOpacity>
+          <View style={styles.rightPanel}>
+            {this.props.rightPanel}
+          </View>
         </View>
       </React.Fragment>
     );
