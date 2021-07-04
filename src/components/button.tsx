@@ -16,7 +16,6 @@ const styles = EStyleSheet.create({
     backgroundColor: COLOR.lighterCyan,
     borderRadius: 100,
     height: '4.25rem',
-    display: 'flex',
     width: '100%',
     borderWidth: 3,
     borderColor: COLOR.darkModerateCyan,

@@ -16,7 +16,6 @@ interface NavigationBarProps {
 
 const styles = EStyleSheet.create({
   container: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',

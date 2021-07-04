@@ -7,7 +7,6 @@ const styles = EStyleSheet.create({
     paddingLeft: '1.5rem',
     paddingRight: '1.5rem',
     paddingTop: '1rem',
-    display: 'flex',
     flex: 1,
     height: '100%',
   },
