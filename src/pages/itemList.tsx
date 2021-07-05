@@ -33,7 +33,6 @@ const styles = EStyleSheet.create({
     marginRight: '1rem'
   },
   name: {
-    color: COLOR.darkCyan,
     fontWeight: '600',
     fontSize: '1rem',
   },
@@ -53,6 +52,11 @@ const styles = EStyleSheet.create({
   heart: {
     alignSelf: 'center',
     marginLeft: 'auto',
+    marginRight: '1rem',
+  },
+  itemInfo: {
+    flex: 1,
+    marginRight: '1rem',
   }
 });
 
@@ -81,20 +85,25 @@ class ItemList extends React.Component<ItemListProps, ItemListState> {
             style={styles.thumbnail}
             source={{ uri: 'https://place-hold.it/60x60' }}
           />
-          <View>
-          <Text style={styles.name}>
-            {item.name}
-          </Text>
-          <Text style={{ color: COLOR.darkCyan }}>
-            {item.notes}
-          </Text>
+          <View style={styles.itemInfo}>
+            <Components.Text
+              style={styles.name}
+            >
+              {item.name}
+            </Components.Text>
+            <Components.Text
+              numberOfLines={1}
+            >
+              {item.notes}
+            </Components.Text>
           </View>
-          <FontAwesome
-            color={COLOR.darkCyan}
-            name={item.isFavorite ? 'heart' : 'heart-o'}
-            size={20}
-            style={styles.heart}
-          />
+          <View style={styles.heart}>
+            <FontAwesome
+              color={COLOR.darkCyan}
+              name={item.isFavorite ? 'heart' : 'heart-o'}
+              size={20}
+            />
+          </View>
         </View>
       </TouchableOpacity>
     );

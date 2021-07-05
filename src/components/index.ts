@@ -5,6 +5,7 @@ import NavigationBar from './navigationBar';
 import Header from './header';
 import StatusBar from './statusBar';
 import Drawer from './drawer';
+import Text from './text';
 
 export default {
   Button,
@@ -14,4 +15,5 @@ export default {
   Header,
   StatusBar,
   Drawer,
+  Text,
 };
