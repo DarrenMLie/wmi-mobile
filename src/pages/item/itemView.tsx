@@ -88,6 +88,7 @@ class ItemView extends React.Component<ItemViewProps, ItemViewState> {
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.navigationTouchable}
+                onPress={() => { this.props.navigation.navigate('EditItemForm', { id: this.props.route.params.id })}}
               >
                 <FontAwesome5
                   color={COLOR.darkCyan}

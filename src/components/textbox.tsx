@@ -21,10 +21,13 @@ const styles = EStyleSheet.create({
     borderWidth: 1.5,
     borderColor: COLOR.darkCyan,
   },
+  multilineContainer: {
+    minHeight: 100,
+    height: 'auto',
+  },
   textInput: {
     flex: 1,
     padding: '1rem',
-    height: '3.25rem',
   },
   container: {
     marginTop: '0.25rem',
@@ -67,8 +70,10 @@ const Textbox = (props: TextboxProps): JSX.Element => (
       style={[
         styles.textInputContainer,
         styles.shadowBox,
+        props.multiline && styles.multilineContainer,
       ]}>
       <TextInput
+        textAlignVertical="top"
         {...props}
         style={styles.textInput}
       />

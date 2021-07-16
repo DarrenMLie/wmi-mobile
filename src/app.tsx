@@ -6,8 +6,9 @@ import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Options from 'pages/options';
 import Login from 'pages/login';
-import List from 'pages/itemList';
+import List from 'pages/item/itemList';
 import ItemView from 'pages/item/itemView';
+import EditItemForm from 'pages/item/editItemForm';
 import MyProfile from 'pages/myProfile';
 import { Dispatch }  from 'redux';
 import Components from 'components';
@@ -48,6 +49,7 @@ class App extends React.Component<AppProps> {
       >
         <ItemStack.Screen name="ItemList" component={List} />
         <ItemStack.Screen name="ItemView" component={ItemView} />
+        <ItemStack.Screen name="EditItemForm" component={EditItemForm} />
       </ItemStack.Navigator>
     );
   }
