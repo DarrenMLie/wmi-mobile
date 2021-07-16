@@ -47,6 +47,21 @@ class ItemServiceClient {
       }
     }
   }
+
+  async updateItem(id: number, form: { name: string, notes: string }): Promise<Item> {
+    const request = await HttpHelper.makeRequest('PUT', `${this.baseUrl}/item/${id}`, form);
+
+    try {
+      const response: AxiosResponse<{ item: Item }> = await axios(request);
+      return response.data.item;
+    } catch (error) {
+      if (error.response) {
+        throw error.response.data;
+      } else {
+        throw 'Unknown error';
+      }
+    }
+  }
 }
 
 export default ItemServiceClient;

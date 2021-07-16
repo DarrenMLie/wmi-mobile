@@ -31,6 +31,15 @@ const styles = EStyleSheet.create({
     width: 150,
     height: 150,
   },
+  button: {
+    height: '3.25rem',
+    width: '50%',
+    alignSelf: 'center',
+    margin: '1rem',
+  },
+  buttonText: {
+    fontSize: '1rem',
+  },
 });
 
 class EditItemForm extends React.Component<EditItemProps, EditItemState> {
@@ -54,6 +63,16 @@ class EditItemForm extends React.Component<EditItemProps, EditItemState> {
         notes: item.notes,
       },
     });
+  }
+
+  save = async () => {
+    try {
+      const client = new ItemServiceClient();
+      await client.updateItem(this.props.route.params.id, this.state.form);
+      this.props.navigation.goBack();
+    } catch(e) {
+      console.log(e);
+    }
   }
 
   onChange = (field: string, value: string): void => {
@@ -93,6 +112,13 @@ class EditItemForm extends React.Component<EditItemProps, EditItemState> {
             placeholder="Describe item here"
             value={form.notes}
           />
+          <Components.Button
+            style={styles.button}
+            onPress={this.save}
+            textStyle={styles.buttonText}
+          >
+            Save
+          </Components.Button>
         </Components.MainContainer>
       </ScrollView>
     );
