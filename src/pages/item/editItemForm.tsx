@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Image } from 'react-native';
+import { ScrollView, Image, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Components from 'components';
 import COLOR from 'constants/color';
@@ -7,6 +7,7 @@ import ItemServiceClient from 'clients/itemService';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ItemStackParamList } from 'navigatorTypes';
 import { RouteProp } from '@react-navigation/native';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 interface EditItemProps {
   navigation: StackNavigationProp<ItemStackParamList, 'EditItemForm'>;
@@ -39,6 +40,9 @@ const styles = EStyleSheet.create({
   },
   buttonText: {
     fontSize: '1rem',
+  },
+  navigationTouchable: {
+    padding: '0.375rem',
   },
 });
 
@@ -75,6 +79,16 @@ class EditItemForm extends React.Component<EditItemProps, EditItemState> {
     }
   }
 
+  delete = async () => {
+    try {
+      const client = new ItemServiceClient();
+      await client.deleteItem(this.props.route.params.id);
+      this.props.navigation.goBack();
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
   onChange = (field: string, value: string): void => {
     this.setState(prevState => ({
       form: {
@@ -92,6 +106,19 @@ class EditItemForm extends React.Component<EditItemProps, EditItemState> {
         <Components.NavigationBar
           icon="times"
           callback={this.props.navigation.goBack}
+          rightPanel={(
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.navigationTouchable}
+              onPress={this.delete}
+            >
+              <FontAwesome5
+                color={COLOR.darkCyan}
+                name="trash-alt"
+                size={20}
+              />
+            </TouchableOpacity>
+          )}
         />
         <Components.MainContainer>
           <Image

@@ -77,6 +77,21 @@ class ItemServiceClient {
       }
     }
   }
+
+  async deleteItem(id: number): Promise<Item> {
+    const request = await HttpHelper.makeRequest('DELETE', `${this.baseUrl}/item/${id}`, {});
+
+    try {
+      const response: AxiosResponse<{ item: Item }> = await axios(request);
+      return response.data.item;
+    } catch (error) {
+      if (error.response) {
+        throw error.response.data;
+      } else {
+        throw 'Unknown error';
+      }
+    }
+  }
 }
 
 export default ItemServiceClient;
