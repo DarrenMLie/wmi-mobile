@@ -20,6 +20,7 @@ const styles = EStyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     padding: '1rem',
+    backgroundColor: COLOR.darkModerateCyan,
   },
   navigationTouchable: {
     padding: '0.375rem',
@@ -41,7 +42,7 @@ class NavigationBar extends React.Component<NavigationBarProps> {
             style={styles.navigationTouchable}
           >
             <FontAwesome5
-              color={COLOR.darkCyan}
+              color={COLOR.lighterCyan}
               name={this.props.icon}
               size={20}
             />

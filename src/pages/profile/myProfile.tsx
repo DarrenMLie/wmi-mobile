@@ -76,7 +76,7 @@ class MyProfile extends React.Component<MyProfileProps, MyProfileState> {
               onPress={() => { this.props.navigation.navigate('EditProfileForm') }}
             >
               <FontAwesome5
-                color={COLOR.darkCyan}
+                color={COLOR.lighterCyan}
                 name="edit"
                 size={20}
               />
@@ -86,7 +86,7 @@ class MyProfile extends React.Component<MyProfileProps, MyProfileState> {
               style={styles.navigationTouchable}
             >
               <FontAwesome5
-                color={COLOR.darkCyan}
+                color={COLOR.lighterCyan}
                 name="bell"
                 size={20}
               />

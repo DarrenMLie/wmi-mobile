@@ -126,7 +126,7 @@ class ItemList extends React.Component<ItemListProps, ItemListState> {
               onPress={() => { this.props.navigation.navigate('CreateItemForm')}}
             >
               <FontAwesome5
-                color={COLOR.darkCyan}
+                color={COLOR.lighterCyan}
                 name="plus"
                 size={20}
               />

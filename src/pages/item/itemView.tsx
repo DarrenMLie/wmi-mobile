@@ -91,7 +91,7 @@ class ItemView extends React.Component<ItemViewProps, ItemViewState> {
                 onPress={() => { this.props.navigation.navigate('EditItemForm', { id: this.props.route.params.id })}}
               >
                 <FontAwesome5
-                  color={COLOR.darkCyan}
+                  color={COLOR.lighterCyan}
                   name="edit"
                   size={20}
                 />
@@ -101,7 +101,7 @@ class ItemView extends React.Component<ItemViewProps, ItemViewState> {
                 style={styles.navigationTouchable}
               >
                 <FontAwesome5
-                  color={COLOR.darkCyan}
+                  color={COLOR.lighterCyan}
                   name="angle-double-right"
                   size={20}
                 />

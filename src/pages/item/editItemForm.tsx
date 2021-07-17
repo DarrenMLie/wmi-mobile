@@ -113,7 +113,7 @@ class EditItemForm extends React.Component<EditItemProps, EditItemState> {
               onPress={this.delete}
             >
               <FontAwesome5
-                color={COLOR.darkCyan}
+                color={COLOR.lighterCyan}
                 name="trash-alt"
                 size={20}
               />
