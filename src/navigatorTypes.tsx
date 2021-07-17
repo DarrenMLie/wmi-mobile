@@ -13,6 +13,7 @@ export type ItemStackParamList = {
   ItemView: {
     id: number;
   };
+  CreateItemForm: undefined;
   EditItemForm: {
     id: number;
   };

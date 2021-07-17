@@ -7,6 +7,7 @@ import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { FontAwesome5 } from '@expo/vector-icons';
 import COLOR from 'constants/color';
+import { updateLoginState } from 'reduxActions/auth/authActions';
 
 const styles = EStyleSheet.create({
   upperContainer: {
@@ -70,11 +71,6 @@ const navigationList = [
     text: 'Me',
     page: 'MyProfile'
   },
-  {
-    icon: 'sign-out-alt',
-    text: 'Logout',
-    page: ''
-  },
 ];
 
 interface DrawerProps {
@@ -83,6 +79,10 @@ interface DrawerProps {
 }
 
 class Drawer extends React.Component<DrawerProps> {
+  logout = () => {
+    this.props.dispatch(updateLoginState(false))
+  }
+
   render() {
     return (
       <ScrollView>
@@ -127,6 +127,23 @@ class Drawer extends React.Component<DrawerProps> {
             </Text>
           </TouchableOpacity>
         ))}
+        <TouchableOpacity
+          style={styles.navigationItem}
+          onPress={this.logout}
+        >
+          <FontAwesome5
+            color={COLOR.darkCyan}
+            name='sign-out-alt'
+            size={PixelRatio.getFontScale() * 16}
+            solid
+            style={styles.icon}
+          />
+          <Text
+            style={styles.navigationText}
+          >
+            Logout
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     );
   }

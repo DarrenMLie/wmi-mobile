@@ -6,6 +6,7 @@ import COLOR from 'constants/color';
 import { Item } from 'models/item';
 import ItemServiceClient from 'clients/itemService';
 import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { DrawerStackParamList, ItemStackParamList } from 'navigatorTypes';
@@ -57,7 +58,10 @@ const styles = EStyleSheet.create({
   itemInfo: {
     flex: 1,
     marginRight: '1rem',
-  }
+  },
+  navigationTouchable: {
+    padding: '0.375rem',
+  },
 });
 
 class ItemList extends React.Component<ItemListProps, ItemListState> {
@@ -115,6 +119,19 @@ class ItemList extends React.Component<ItemListProps, ItemListState> {
         <Components.NavigationBar
           icon="bars"
           callback={this.props.navigation.toggleDrawer}
+          rightPanel={(
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.navigationTouchable}
+              onPress={() => { this.props.navigation.navigate('CreateItemForm')}}
+            >
+              <FontAwesome5
+                color={COLOR.darkCyan}
+                name="plus"
+                size={20}
+              />
+            </TouchableOpacity>
+          )}
         />
         <FlatList
           contentContainerStyle={styles.list}

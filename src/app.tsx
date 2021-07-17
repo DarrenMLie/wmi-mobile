@@ -8,6 +8,7 @@ import Options from 'pages/options';
 import Login from 'pages/login';
 import List from 'pages/item/itemList';
 import ItemView from 'pages/item/itemView';
+import CreateItemForm from 'pages/item/createItemForm';
 import EditItemForm from 'pages/item/editItemForm';
 import MyProfile from 'pages/myProfile';
 import { Dispatch }  from 'redux';
@@ -49,6 +50,7 @@ class App extends React.Component<AppProps> {
       >
         <ItemStack.Screen name="ItemList" component={List} />
         <ItemStack.Screen name="ItemView" component={ItemView} />
+        <ItemStack.Screen name="CreateItemForm" component={CreateItemForm} />
         <ItemStack.Screen name="EditItemForm" component={EditItemForm} />
       </ItemStack.Navigator>
     );
