@@ -10,12 +10,13 @@ import List from 'pages/item/itemList';
 import ItemView from 'pages/item/itemView';
 import CreateItemForm from 'pages/item/createItemForm';
 import EditItemForm from 'pages/item/editItemForm';
-import MyProfile from 'pages/myProfile';
+import MyProfile from 'pages/profile/myProfile';
+import EditProfileForm from 'pages/profile/editProfileForm';
 import { Dispatch }  from 'redux';
 import Components from 'components';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerContentComponentProps } from '@react-navigation/drawer';
-import { LandingStackParamList, DrawerStackParamList, ItemStackParamList } from 'navigatorTypes';
+import { LandingStackParamList, DrawerStackParamList, ItemStackParamList, UserStackParamList } from 'navigatorTypes';
 
 interface AppProps {
   dispatch: Dispatch;
@@ -25,6 +26,7 @@ interface AppProps {
 const LandingStack = createStackNavigator<LandingStackParamList>();
 const DrawerStack = createDrawerNavigator<DrawerStackParamList>();
 const ItemStack = createStackNavigator<ItemStackParamList>();
+const UserStack = createStackNavigator<UserStackParamList>();
 
 const styles = EStyleSheet.create({
   mainContainer: {
@@ -56,6 +58,19 @@ class App extends React.Component<AppProps> {
     );
   }
 
+  renderUserStack = () => {
+    return (
+      <UserStack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <UserStack.Screen name="MyProfile" component={MyProfile} />
+        <UserStack.Screen name="EditProfileForm" component={EditProfileForm} />
+      </UserStack.Navigator>
+    )
+  }
+
   render(): React.ReactNode {
     return (
       <View style={styles.mainContainer}>
@@ -66,7 +81,7 @@ class App extends React.Component<AppProps> {
               initialRouteName="ItemList"
             >
               <DrawerStack.Screen name="ItemList" component={this.renderItemManager} />
-              <DrawerStack.Screen name="MyProfile" component={MyProfile} />
+              <DrawerStack.Screen name="MyProfile" component={this.renderUserStack} />
             </DrawerStack.Navigator>
           ) : (
             <LandingStack.Navigator

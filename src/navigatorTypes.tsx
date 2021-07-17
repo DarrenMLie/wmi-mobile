@@ -18,3 +18,8 @@ export type ItemStackParamList = {
     id: number;
   };
 }
+
+export type UserStackParamList = {
+  MyProfile: undefined;
+  EditProfileForm: undefined;
+}

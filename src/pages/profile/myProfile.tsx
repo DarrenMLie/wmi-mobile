@@ -6,11 +6,16 @@ import COLOR from 'constants/color';
 import { Profile } from 'models/user';
 import UserClient from 'clients/user';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { DrawerStackParamList } from 'navigatorTypes';
+import { DrawerStackParamList, UserStackParamList } from 'navigatorTypes';
+import { CompositeNavigationProp } from '@react-navigation/native';
 
 interface MyProfileProps {
-  navigation: DrawerNavigationProp<DrawerStackParamList, 'MyProfile'>;
+  navigation: CompositeNavigationProp<
+    DrawerNavigationProp<DrawerStackParamList, 'ItemList'>,
+    StackNavigationProp<UserStackParamList, 'MyProfile'>
+  >;
 }
 
 interface MyProfileState {
@@ -68,6 +73,7 @@ class MyProfile extends React.Component<MyProfileProps, MyProfileState> {
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.navigationTouchable}
+              onPress={() => { this.props.navigation.navigate('EditProfileForm') }}
             >
               <FontAwesome5
                 color={COLOR.darkCyan}

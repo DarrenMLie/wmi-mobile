@@ -14,16 +14,8 @@ class UserClient {
     }
   }
 
-  getMyProfileUrl(): string {
-    return `${this.baseUrl}/user/my-profile`;
-  }
-
-  updateMyProfileUrl(): string {
-    return `${this.baseUrl}/user/my-profile`;
-  }
-
   async getMyProfile(): Promise<Profile> {
-    const request = await HttpHelper.makeRequest('GET', this.getMyProfileUrl(), {});
+    const request = await HttpHelper.makeRequest('GET', `${this.baseUrl}/user/my-profile`, {});
 
     try {
       const response: AxiosResponse<{ profile: Profile }> = await axios(request);
@@ -39,8 +31,8 @@ class UserClient {
     }
   }
 
-  async updateMyProfile(): Promise<Profile> {
-    const request = await HttpHelper.makeRequest('PUT', this.getMyProfileUrl(), {});
+  async updateMyProfile(form: { bio: string, firstName: string, lastName: string }): Promise<Profile> {
+    const request = await HttpHelper.makeRequest('PUT', `${this.baseUrl}/user/my-profile`, form);
 
     try {
       const response: AxiosResponse<{ profile: Profile }> = await axios(request);

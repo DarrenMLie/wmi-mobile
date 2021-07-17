@@ -17,12 +17,8 @@ class AuthClient {
     }
   }
 
-  signInUrl(): string {
-    return `${this.baseUrl}/user/sign-in`;
-  }
-
   async signIn(form: SignInForm): Promise<void> {
-    const request = await HttpHelper.makeRequest('POST', this.signInUrl(), form);
+    const request = await HttpHelper.makeRequest('POST', `${this.baseUrl}/user/sign-in`, form);
 
     try {
       const response = await axios(request);
