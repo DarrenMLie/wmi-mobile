@@ -1,7 +1,7 @@
 import { ITEM_SERVICE_PROTOCOL, ITEM_SERVICE_HOST, ITEM_SERVICE_PORT } from '@env'
 import * as HttpHelper from 'utils/httpHelper';
 import axios from 'axios';
-import { SignInForm } from 'models/auth';
+import { SignInForm, SignUpForm } from 'models/auth';
 import SecureStore from 'utils/secureStore';
 import { getStore } from 'reduxActions/store';
 import { updateLoginState } from 'reduxActions/auth/authActions';
@@ -31,6 +31,19 @@ class AuthClient {
       if (error.response) {
         console.log(error.response.data);
       }
+    }
+  }
+
+  async signUp(form: SignUpForm): Promise<void> {
+    const request = await HttpHelper.makeRequest('POST', `${this.baseUrl}/user/sign-up`, form);
+    try {
+      const response = await axios(request);
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        console.log(error.response.data);
+      }
+      throw error;
     }
   }
 }

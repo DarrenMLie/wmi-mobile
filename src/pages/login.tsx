@@ -92,6 +92,9 @@ class Login extends React.Component<LoginProps, LoginState> {
           >
             Login
           </Components.Button>
+          <Components.Text onPress={() => {this.props.navigation.navigate('Register')}}>
+            Don't have an account? Register here.
+          </Components.Text>
         </Components.MainContainer>
       </ScrollView>
     );

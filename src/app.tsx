@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Options from 'pages/options';
 import Login from 'pages/login';
+import Register from 'pages/register';
 import List from 'pages/item/itemList';
 import ItemView from 'pages/item/itemView';
 import CreateItemForm from 'pages/item/createItemForm';
@@ -92,6 +93,7 @@ class App extends React.Component<AppProps> {
             >
               <LandingStack.Screen name="Options" component={Options} />
               <LandingStack.Screen name="Login" component={Login} />
+              <LandingStack.Screen name="Register" component={Register} />
             </LandingStack.Navigator>
           )}
         </NavigationContainer>
