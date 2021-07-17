@@ -23,7 +23,6 @@ interface LoginState {
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: '1rem',
     backgroundColor: COLOR.lightCyan,
   },
   loginButton: {

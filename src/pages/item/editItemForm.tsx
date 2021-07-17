@@ -106,6 +106,7 @@ class EditItemForm extends React.Component<EditItemProps, EditItemState> {
         <Components.NavigationBar
           icon="times"
           callback={this.props.navigation.goBack}
+          title="Edit Item"
           rightPanel={(
             <TouchableOpacity
               activeOpacity={0.8}

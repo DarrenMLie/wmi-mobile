@@ -96,6 +96,7 @@ class EditProfileForm extends React.Component<EditProfileProps, EditProfileState
         <Components.NavigationBar
           icon="times"
           callback={this.props.navigation.goBack}
+          title="Edit Profile"
         />
         <Components.MainContainer>
           <Image

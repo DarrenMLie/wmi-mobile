@@ -2,6 +2,7 @@ import React from 'react';
 import {
   View,
   TouchableOpacity,
+  Text,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -11,6 +12,7 @@ import StatusBar from './statusBar';
 interface NavigationBarProps {
   icon: string;
   callback?: () => void;
+  title?: string;
   rightPanel?: React.ReactNode;
 }
 
@@ -24,6 +26,12 @@ const styles = EStyleSheet.create({
   },
   navigationTouchable: {
     padding: '0.375rem',
+  },
+  title: {
+    alignSelf: 'center',
+    color: COLOR.lighterCyan,
+    fontWeight: 'bold',
+    fontSize: '1.2rem',
   },
   rightPanel: {
     flexDirection: 'row',
@@ -47,6 +55,9 @@ class NavigationBar extends React.Component<NavigationBarProps> {
               size={20}
             />
           </TouchableOpacity>
+          <Text style={styles.title}>
+            {this.props.title}
+          </Text>
           <View style={styles.rightPanel}>
             {this.props.rightPanel}
           </View>

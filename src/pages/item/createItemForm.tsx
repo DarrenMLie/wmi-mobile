@@ -79,6 +79,7 @@ class NewItemForm extends React.Component<CreateItemProps, CreateItemState> {
         <Components.NavigationBar
           icon="times"
           callback={this.props.navigation.goBack}
+          title="New Item"
         />
         <Components.MainContainer>
           <Image

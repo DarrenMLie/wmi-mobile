@@ -83,6 +83,7 @@ class ItemView extends React.Component<ItemViewProps, ItemViewState> {
         <Components.NavigationBar
           icon="arrow-left"
           callback={this.props.navigation.goBack}
+          title={item ? item.name : ''}
           rightPanel={(
             <>
               <TouchableOpacity
