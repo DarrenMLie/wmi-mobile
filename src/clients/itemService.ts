@@ -2,6 +2,8 @@ import { ITEM_SERVICE_PROTOCOL, ITEM_SERVICE_HOST, ITEM_SERVICE_PORT } from '@en
 import * as HttpHelper from 'utils/httpHelper';
 import axios, { AxiosResponse } from 'axios';
 import { MetaItems, Item } from 'models/item';
+import { getStore } from 'reduxActions/store';
+import { receiveItems, updateItem } from 'reduxActions/item/itemActions';
 
 class ItemServiceClient {
   baseUrl: string;
@@ -21,6 +23,8 @@ class ItemServiceClient {
       const response: AxiosResponse<MetaItems> = await axios(request);
 
       console.log(response.data);
+      const store = getStore();
+      store.dispatch(receiveItems(response.data.results));
       return response.data;
     } catch (error) {
       console.log(error);
@@ -63,12 +67,13 @@ class ItemServiceClient {
     }
   }
 
-  async updateItem(id: number, form: { name: string, notes: string }): Promise<Item> {
+  async updateItem(id: number, form: { name: string, notes: string }): Promise<void> {
     const request = await HttpHelper.makeRequest('PUT', `${this.baseUrl}/item/${id}`, form);
 
     try {
       const response: AxiosResponse<{ item: Item }> = await axios(request);
-      return response.data.item;
+      const store = getStore();
+      store.dispatch(updateItem(response.data.item));
     } catch (error) {
       if (error.response) {
         throw error.response.data;

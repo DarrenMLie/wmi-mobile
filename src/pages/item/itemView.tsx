@@ -4,19 +4,17 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Components from 'components';
 import COLOR from 'constants/color';
 import { Item } from 'models/item';
-import ItemServiceClient from 'clients/itemService';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ItemStackParamList } from 'navigatorTypes';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { RouteProp } from '@react-navigation/native';
+import { connect } from 'react-redux';
+import { RootState } from 'reduxActions/store';
 
 interface ItemViewProps {
   navigation: StackNavigationProp<ItemStackParamList, 'ItemView'>;
   route: RouteProp<ItemStackParamList, 'ItemView'>;
-}
-
-interface ItemViewState {
-  item: Item | null,
+  item: Item | undefined;
 }
 
 const styles = EStyleSheet.create({
@@ -60,23 +58,9 @@ const styles = EStyleSheet.create({
   }
 });
 
-class ItemView extends React.Component<ItemViewProps, ItemViewState> {
-  constructor(props: ItemViewProps) {
-    super(props);
-
-    this.state = {
-      item: null,
-    }
-  }
-
-  async componentDidMount() {
-    const client = new ItemServiceClient();
-    const item = await client.getItem(this.props.route.params.id);
-    this.setState({ item });
-  }
-
+class ItemView extends React.Component<ItemViewProps, {}> {
   render(): React.ReactNode {
-    const { item } = this.state;
+    const { item } = this.props;
 
     return (
       <View style={styles.container}>
@@ -151,4 +135,10 @@ class ItemView extends React.Component<ItemViewProps, ItemViewState> {
   }
 }
 
-export default ItemView;
+function mapStateToProps(state: RootState, props: ItemViewProps) {
+  return {
+    item: state.item.items[props.route.params.id],
+  }
+}
+
+export default connect(mapStateToProps)(ItemView);

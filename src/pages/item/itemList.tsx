@@ -11,16 +11,17 @@ import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { DrawerStackParamList, ItemStackParamList } from 'navigatorTypes';
 import { CompositeNavigationProp } from '@react-navigation/native';
+import { connect } from 'react-redux';
+import { RootState } from 'reduxActions/store';
 
 interface ItemListProps {
   navigation: CompositeNavigationProp<
     DrawerNavigationProp<DrawerStackParamList, 'ItemList'>,
     StackNavigationProp<ItemStackParamList, 'ItemList'>
   >;
-}
-
-interface ItemListState {
-  items: Item[],
+  items: {
+    [index: string]: Item;
+  };
 }
 
 const styles = EStyleSheet.create({
@@ -64,19 +65,10 @@ const styles = EStyleSheet.create({
   },
 });
 
-class ItemList extends React.Component<ItemListProps, ItemListState> {
-  constructor(props: ItemListProps) {
-    super(props);
-
-    this.state = {
-      items: [],
-    }
-  }
-
+class ItemList extends React.Component<ItemListProps, {}> {
   async componentDidMount() {
     const client = new ItemServiceClient();
-    const metaItems = await client.getItemList();
-    this.setState({ items: metaItems.results });
+    await client.getItemList();
   }
 
   renderItem = ({ item }: ListRenderItemInfo<Item>): React.ReactElement => {
@@ -114,6 +106,8 @@ class ItemList extends React.Component<ItemListProps, ItemListState> {
   }
 
   render(): React.ReactNode {
+    const list = Object.values(this.props.items).map(item => item)
+
     return (
       <View style={styles.container}>
         <Components.NavigationBar
@@ -135,7 +129,7 @@ class ItemList extends React.Component<ItemListProps, ItemListState> {
         />
         <FlatList
           contentContainerStyle={styles.list}
-          data={this.state.items}
+          data={list}
           ItemSeparatorComponent={() => (
             <View style={styles.separator} />
           )}
@@ -146,4 +140,10 @@ class ItemList extends React.Component<ItemListProps, ItemListState> {
   }
 }
 
-export default ItemList;
+function mapStateToProps(state: RootState) {
+  return {
+    items: state.item.items,
+  }
+}
+
+export default connect(mapStateToProps)(ItemList);

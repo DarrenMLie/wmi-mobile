@@ -100,7 +100,6 @@ class Register extends React.Component<RegisterProps, RegisterState> {
           />
           <Components.Textbox
             fieldName="Last Name"
-            isRequired
             onChangeText={(value) => { this.onChange('lastName', value); }}
             placeholder="Last Name"
           />

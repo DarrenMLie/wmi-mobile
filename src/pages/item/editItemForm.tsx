@@ -8,10 +8,14 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { ItemStackParamList } from 'navigatorTypes';
 import { RouteProp } from '@react-navigation/native';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { Item } from 'models/item';
+import { connect } from 'react-redux';
+import { RootState } from 'reduxActions/store';
 
 interface EditItemProps {
   navigation: StackNavigationProp<ItemStackParamList, 'EditItemForm'>;
   route: RouteProp<ItemStackParamList, 'EditItemForm'>;
+  item: Item | undefined;
 }
 
 interface EditItemState {
@@ -52,21 +56,10 @@ class EditItemForm extends React.Component<EditItemProps, EditItemState> {
 
     this.state = {
       form: {
-        name: '',
-        notes: '',
+        name: props.item ? props.item.name : '',
+        notes: props.item ? props.item.notes : '',
       }
     }
-  }
-
-  async componentDidMount() {
-    const client = new ItemServiceClient();
-    const item = await client.getItem(this.props.route.params.id);
-    this.setState({ 
-      form: {
-        name: item.name,
-        notes: item.notes,
-      },
-    });
   }
 
   save = async () => {
@@ -153,4 +146,10 @@ class EditItemForm extends React.Component<EditItemProps, EditItemState> {
   }
 }
 
-export default EditItemForm;
+function mapStateToProps(state: RootState, props: EditItemProps) {
+  return {
+    item: state.item.items[props.route.params.id],
+  }
+}
+
+export default connect(mapStateToProps)(EditItemForm);
