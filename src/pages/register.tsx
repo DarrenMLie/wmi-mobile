@@ -5,7 +5,7 @@ import Components from 'components';
 import { LandingStackParamList } from 'navigatorTypes';
 import { StackNavigationProp } from '@react-navigation/stack';
 import COLOR from 'constants/color';
-import AuthClient from 'clients/auth';
+import { signUp } from 'clients/auth';
 
 type NavigationProp = StackNavigationProp<LandingStackParamList, 'Register'>;
 
@@ -67,12 +67,11 @@ class Register extends React.Component<RegisterProps, RegisterState> {
 
   register = async (): Promise<void> => {
     try {
-        const client = new AuthClient();
-        const response = await client.signUp(this.state.form);
-        this.props.navigation.goBack();
+      const response = await signUp(this.state.form);
+      this.props.navigation.goBack();
     } catch(error) {
-        console.log(error);
-    }   
+      console.log(error);
+    }
   }
 
   render(): React.ReactNode {

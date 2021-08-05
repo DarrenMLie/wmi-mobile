@@ -1,26 +1,37 @@
-import {
-  AuthState,
-  AuthActionTypes,
-  UPDATE_LOGIN_STATE,
-} from './authTypes';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { signIn as signInApi } from 'clients/auth';
+import { SignInForm, SignUpForm } from 'models/auth';
 
-const initialState = {
-  isAuthenticated: false,
-};
-
-function authReducer(
-  state: AuthState = initialState,
-  action: AuthActionTypes,
-): AuthState {
-  switch(action.type) {
-    case UPDATE_LOGIN_STATE:
-      return {
-        ...state,
-        isAuthenticated: action.isAuthenticated,
-      };
-    default:
-      return state;
+export const signIn = createAsyncThunk(
+  'auth/signIn',
+  async (form: SignInForm, thunkAPI) => {
+    try {
+      await signInApi(form);
+    } catch (e) {
+      throw e;
+    }
   }
-}
+)
 
-export default authReducer;
+const authSlice = createSlice({
+  name: 'auth',
+  initialState: {
+    isAuthenticated: false,
+  },
+  reducers: {
+    logout(state) {
+      state.isAuthenticated = false
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(signIn.fulfilled, (state, action) => {
+      state.isAuthenticated = true;
+    })
+  },
+})
+
+const { actions, reducer } = authSlice;
+
+export const { logout } = actions;
+
+export default reducer;

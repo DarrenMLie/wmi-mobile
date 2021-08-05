@@ -5,15 +5,20 @@ import Components from 'components';
 import { LandingStackParamList } from 'navigatorTypes';
 import { StackNavigationProp } from '@react-navigation/stack';
 import COLOR from 'constants/color';
-import AuthClient from 'clients/auth';
+import { signIn } from 'reduxActions/auth/authReducer';
+import { AppDispatch }  from 'reduxActions/store';
+import { connect } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 type NavigationProp = StackNavigationProp<LandingStackParamList, 'Login'>;
 
 interface LoginProps {
+  dispatch: AppDispatch;
   navigation: NavigationProp;
 }
 
 interface LoginState {
+  error: string;
   form: {
     identifier: string;
     password: string;
@@ -41,6 +46,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     super(props);
 
     this.state = {
+      error: '',
       form: {
         identifier: '',
         password: ''
@@ -58,8 +64,9 @@ class Login extends React.Component<LoginProps, LoginState> {
   }
 
   login = async (): Promise<void> => {
-    const client = new AuthClient();
-    const response = await client.signIn(this.state.form);
+    this.props.dispatch(signIn(this.state.form))
+      .then(unwrapResult)
+      .catch(e => this.setState({ error: e.message }));
   }
 
   render(): React.ReactNode {
@@ -95,10 +102,13 @@ class Login extends React.Component<LoginProps, LoginState> {
           <Components.Text onPress={() => {this.props.navigation.navigate('Register')}}>
             Don't have an account? Register here.
           </Components.Text>
+          <Components.Text>
+            {this.state.error}
+          </Components.Text>
         </Components.MainContainer>
       </ScrollView>
     );
   }
 }
 
-export default Login;
+export default connect()(Login);

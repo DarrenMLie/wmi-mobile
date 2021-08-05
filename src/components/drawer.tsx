@@ -7,7 +7,7 @@ import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { FontAwesome5 } from '@expo/vector-icons';
 import COLOR from 'constants/color';
-import { updateLoginState } from 'reduxActions/auth/authActions';
+import { logout } from 'reduxActions/auth/authReducer';
 
 const styles = EStyleSheet.create({
   upperContainer: {
@@ -80,7 +80,7 @@ interface DrawerProps {
 
 class Drawer extends React.Component<DrawerProps> {
   logout = () => {
-    this.props.dispatch(updateLoginState(false))
+    this.props.dispatch(logout())
   }
 
   render() {

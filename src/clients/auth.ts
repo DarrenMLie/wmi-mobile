@@ -3,49 +3,33 @@ import * as HttpHelper from 'utils/httpHelper';
 import axios from 'axios';
 import { SignInForm, SignUpForm } from 'models/auth';
 import SecureStore from 'utils/secureStore';
-import { getStore } from 'reduxActions/store';
-import { updateLoginState } from 'reduxActions/auth/authActions';
 
-class AuthClient {
-  baseUrl: string;
+const baseUrl = (ITEM_SERVICE_PORT) ? `${ITEM_SERVICE_PROTOCOL}://${ITEM_SERVICE_HOST}:${ITEM_SERVICE_PORT}`
+  : `${ITEM_SERVICE_PROTOCOL}://${ITEM_SERVICE_HOST}`;
 
-  constructor() {
-    if (ITEM_SERVICE_PORT) {
-      this.baseUrl = `${ITEM_SERVICE_PROTOCOL}://${ITEM_SERVICE_HOST}:${ITEM_SERVICE_PORT}`;
-    } else {
-      this.baseUrl = `${ITEM_SERVICE_PROTOCOL}://${ITEM_SERVICE_HOST}`;
+export async function signIn(form: SignInForm): Promise<void> {
+  const request = await HttpHelper.makeRequest('POST', `${baseUrl}/user/sign-in`, form);
+
+  try {
+    const response = await axios(request);
+    SecureStore.setItem('jwt', response.data.token)
+
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data.details || error.response.data.message;
     }
-  }
-
-  async signIn(form: SignInForm): Promise<void> {
-    const request = await HttpHelper.makeRequest('POST', `${this.baseUrl}/user/sign-in`, form);
-
-    try {
-      const response = await axios(request);
-      SecureStore.setItem('jwt', response.data.token)
-
-      const store = getStore();
-      store.dispatch(updateLoginState(true));
-    } catch (error) {
-      console.log(error);
-      if (error.response) {
-        console.log(error.response.data);
-      }
-    }
-  }
-
-  async signUp(form: SignUpForm): Promise<void> {
-    const request = await HttpHelper.makeRequest('POST', `${this.baseUrl}/user/sign-up`, form);
-    try {
-      const response = await axios(request);
-    } catch (error) {
-      console.log(error);
-      if (error.response) {
-        console.log(error.response.data);
-      }
-      throw error;
-    }
+    throw 'Service unavailable';
   }
 }
 
-export default AuthClient;
+export async function signUp(form: SignUpForm): Promise<void> {
+  const request = await HttpHelper.makeRequest('POST', `${baseUrl}/user/sign-up`, form);
+  try {
+    await axios(request);
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data.details || error.response.data.message;
+    }
+    throw 'Service unavailable';
+  }
+}
