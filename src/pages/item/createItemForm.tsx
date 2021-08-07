@@ -3,7 +3,7 @@ import { ScrollView, Image } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Components from 'components';
 import COLOR from 'constants/color';
-import ItemServiceClient from 'clients/itemService';
+import { createItem } from 'clients/itemService';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ItemStackParamList } from 'navigatorTypes';
 
@@ -54,8 +54,7 @@ class NewItemForm extends React.Component<CreateItemProps, CreateItemState> {
 
   save = async () => {
     try {
-      const client = new ItemServiceClient();
-      await client.createItem(this.state.form);
+      await createItem(this.state.form);
       this.props.navigation.goBack();
     } catch(e) {
       console.log(e);

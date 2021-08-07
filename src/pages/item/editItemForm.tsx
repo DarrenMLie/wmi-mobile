@@ -3,7 +3,6 @@ import { ScrollView, Image, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Components from 'components';
 import COLOR from 'constants/color';
-import ItemServiceClient from 'clients/itemService';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ItemStackParamList } from 'navigatorTypes';
 import { RouteProp } from '@react-navigation/native';
@@ -11,8 +10,12 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Item } from 'models/item';
 import { connect } from 'react-redux';
 import { RootState } from 'reduxActions/store';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { updateItem, deleteItem } from 'reduxActions/item/itemReducer';
+import { AppDispatch } from 'reduxActions/store';
 
 interface EditItemProps {
+  dispatch: AppDispatch;
   navigation: StackNavigationProp<ItemStackParamList, 'EditItemForm'>;
   route: RouteProp<ItemStackParamList, 'EditItemForm'>;
   item: Item | undefined;
@@ -64,8 +67,7 @@ class EditItemForm extends React.Component<EditItemProps, EditItemState> {
 
   save = async () => {
     try {
-      const client = new ItemServiceClient();
-      await client.updateItem(this.props.route.params.id, this.state.form);
+      unwrapResult(await this.props.dispatch(updateItem({...this.state.form, id: this.props.route.params.id })));
       this.props.navigation.goBack();
     } catch(e) {
       console.log(e);
@@ -74,9 +76,8 @@ class EditItemForm extends React.Component<EditItemProps, EditItemState> {
 
   delete = async () => {
     try {
-      const client = new ItemServiceClient();
-      await client.deleteItem(this.props.route.params.id);
-      this.props.navigation.goBack();
+      unwrapResult(await this.props.dispatch(deleteItem(this.props.route.params.id)));
+      this.props.navigation.navigate('ItemList');
     } catch(e) {
       console.log(e);
     }

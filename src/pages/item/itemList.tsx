@@ -4,7 +4,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Components from 'components';
 import COLOR from 'constants/color';
 import { Item } from 'models/item';
-import ItemServiceClient from 'clients/itemService';
 import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
@@ -13,8 +12,12 @@ import { DrawerStackParamList, ItemStackParamList } from 'navigatorTypes';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { RootState } from 'reduxActions/store';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { getItems } from 'reduxActions/item/itemReducer';
+import { AppDispatch }  from 'reduxActions/store';
 
 interface ItemListProps {
+  dispatch: AppDispatch;
   navigation: CompositeNavigationProp<
     DrawerNavigationProp<DrawerStackParamList, 'ItemList'>,
     StackNavigationProp<ItemStackParamList, 'ItemList'>
@@ -67,8 +70,11 @@ const styles = EStyleSheet.create({
 
 class ItemList extends React.Component<ItemListProps, {}> {
   async componentDidMount() {
-    const client = new ItemServiceClient();
-    await client.getItemList();
+    try {
+      unwrapResult(await this.props.dispatch(getItems()));
+    } catch(e) {
+      this.setState({ error: e.message });
+    }
   }
 
   renderItem = ({ item }: ListRenderItemInfo<Item>): React.ReactElement => {
