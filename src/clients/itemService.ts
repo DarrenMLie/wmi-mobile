@@ -25,7 +25,7 @@ export async function getItemList(): Promise<MetaItems> {
   }
 }
 
-export async function getItem(id: number): Promise<Item> {
+export async function getItem(id: string): Promise<Item> {
   const request = await HttpHelper.makeRequest('GET', `${baseUrl}/item/${id}`, null);
 
   try {
@@ -55,7 +55,7 @@ export async function createItem(form: { name: string, notes: string }): Promise
   }
 }
 
-export async function updateItem(id: number, form: { name: string, notes: string }): Promise<Item> {
+export async function updateItem(id: string, form: { name: string, notes: string }): Promise<Item> {
   const request = await HttpHelper.makeRequest('PUT', `${baseUrl}/item/${id}`, form);
 
   try {
@@ -70,7 +70,7 @@ export async function updateItem(id: number, form: { name: string, notes: string
   }
 }
 
-export async function deleteItem(id: number): Promise<void> {
+export async function deleteItem(id: string): Promise<void> {
   const request = await HttpHelper.makeRequest('DELETE', `${baseUrl}/item/${id}`, {});
 
   try {

@@ -3,11 +3,15 @@ import { ScrollView, Image } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Components from 'components';
 import COLOR from 'constants/color';
-import { createItem } from 'clients/itemService';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ItemStackParamList } from 'navigatorTypes';
+import { connect } from 'react-redux';
+import { createItem } from 'reduxActions/item/itemReducer';
+import { AppDispatch }  from 'reduxActions/store';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 interface CreateItemProps {
+  dispatch: AppDispatch;
   navigation: StackNavigationProp<ItemStackParamList, 'CreateItemForm'>;
 }
 
@@ -54,7 +58,7 @@ class NewItemForm extends React.Component<CreateItemProps, CreateItemState> {
 
   save = async () => {
     try {
-      await createItem(this.state.form);
+      unwrapResult(await this.props.dispatch(createItem(this.state.form)));
       this.props.navigation.goBack();
     } catch(e) {
       console.log(e);
@@ -112,4 +116,4 @@ class NewItemForm extends React.Component<CreateItemProps, CreateItemState> {
   }
 }
 
-export default NewItemForm;
+export default connect()(NewItemForm);

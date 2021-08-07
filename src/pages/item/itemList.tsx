@@ -22,9 +22,7 @@ interface ItemListProps {
     DrawerNavigationProp<DrawerStackParamList, 'ItemList'>,
     StackNavigationProp<ItemStackParamList, 'ItemList'>
   >;
-  items: {
-    [index: string]: Item;
-  };
+  items: Item[];
 }
 
 const styles = EStyleSheet.create({
@@ -112,8 +110,6 @@ class ItemList extends React.Component<ItemListProps, {}> {
   }
 
   render(): React.ReactNode {
-    const list = Object.values(this.props.items).map(item => item)
-
     return (
       <View style={styles.container}>
         <Components.NavigationBar
@@ -135,7 +131,7 @@ class ItemList extends React.Component<ItemListProps, {}> {
         />
         <FlatList
           contentContainerStyle={styles.list}
-          data={list}
+          data={this.props.items}
           ItemSeparatorComponent={() => (
             <View style={styles.separator} />
           )}
@@ -148,7 +144,7 @@ class ItemList extends React.Component<ItemListProps, {}> {
 
 function mapStateToProps(state: RootState) {
   return {
-    items: state.item.items,
+    items: state.item.itemIds.map(id => state.item.items[id]),
   }
 }
 

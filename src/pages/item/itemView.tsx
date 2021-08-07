@@ -27,7 +27,7 @@ const styles = EStyleSheet.create({
   },
   name: {
     fontWeight: '600',
-    fontSize: '1.5rem',
+    fontSize: '1.25rem',
     marginBottom: '0.625rem',
   },
   mainInfo: {

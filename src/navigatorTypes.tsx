@@ -12,11 +12,11 @@ export type DrawerStackParamList = {
 export type ItemStackParamList = {
   ItemList: undefined;
   ItemView: {
-    id: number;
+    id: string;
   };
   CreateItemForm: undefined;
   EditItemForm: {
-    id: number;
+    id: string;
   };
 }
 

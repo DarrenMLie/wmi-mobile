@@ -108,6 +108,7 @@ class Drawer extends React.Component<DrawerProps> {
         </View>
         {navigationList.map(item => (
           <TouchableOpacity
+            key={item.text}
             style={styles.navigationItem}
             onPress={() => {
               this.props.navigationProps.navigation.navigate(item.page);
