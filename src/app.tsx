@@ -15,7 +15,9 @@ import MyProfile from 'pages/profile/myProfile';
 import EditProfileForm from 'pages/profile/editProfileForm';
 import { Dispatch }  from 'redux';
 import Components from 'components';
+import SecureStore from 'utils/secureStore';
 import { createStackNavigator } from '@react-navigation/stack';
+import { updateLoginState } from 'reduxActions/auth/authReducer';
 import { createDrawerNavigator, DrawerContentComponentProps } from '@react-navigation/drawer';
 import { LandingStackParamList, DrawerStackParamList, ItemStackParamList, UserStackParamList } from 'navigatorTypes';
 
@@ -36,6 +38,12 @@ const styles = EStyleSheet.create({
 });
 
 class App extends React.Component<AppProps> {
+  async componentDidMount() {
+    const token = await SecureStore.getItem('access-token');
+
+    this.props.dispatch(updateLoginState(token !== null));
+  }
+
   renderDrawer(props: DrawerContentComponentProps): React.ReactNode {
     return (
       <Components.Drawer

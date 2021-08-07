@@ -65,7 +65,7 @@ class Login extends React.Component<LoginProps, LoginState> {
 
   login = async (): Promise<void> => {
     try {
-      unwrapResult(await this.props.dispatch(signIn(this.state.form)));
+      await this.props.dispatch(signIn(this.state.form)).unwrap();
     } catch(e) {
       this.setState({ error: e.message });
     }

@@ -6,18 +6,32 @@ import {
   deleteItem as deleteItemApi,
   createItem as createItemApi,
 } from 'clients/itemService';
+import { execute } from 'utils/jwtExpiryHelper';
 
-export const createItem = createAsyncThunk('item/createItem', createItemApi);
-export const getItems = createAsyncThunk('item/getItems', getItemList);
-export const updateItem = createAsyncThunk(
-  'item/updateItem',
-  async (form: { id: string, name: string, notes: string }, thunkAPI) => {
-    return updateItemApi(form.id, form);
+export const createItem = createAsyncThunk(
+  'item/createItem',
+  async(form: { name: string, notes: string }, api) => {
+    return execute(api, () => createItemApi(form));
   }
 );
+
+export const getItems = createAsyncThunk(
+  'item/getItems',
+  async(undefined, api) => {
+    return execute(api, getItemList);
+  }
+);
+
+export const updateItem = createAsyncThunk(
+  'item/updateItem',
+  async (form: { id: string, name: string, notes: string }, api) => {
+    return execute(api, () => updateItemApi(form.id, form));
+  }
+);
+
 export const deleteItem = createAsyncThunk('item/deleteItem',
-  async(id: string) => {
-    await deleteItemApi(id);
+  async(id: string, api) => {
+    await execute(api, () => deleteItemApi(id));
     return id;
   }
 );
@@ -44,11 +58,11 @@ const itemSlice = createSlice({
       state.itemIds.unshift(action.payload.id);
     })
     builder.addCase(getItems.fulfilled, (state, action) => {
-      state.items = action.payload.results.reduce(function(map: { [index: string]: Item }, item) {
+      state.items = action.payload.results.reduce(function(map: { [index: string]: Item }, item: Item) {
         map[item.id] = item;
         return map;
       }, {});
-      state.itemIds = action.payload.results.map(item => item.id);
+      state.itemIds = action.payload.results.map((item: Item) => item.id);
     })
     builder.addCase(updateItem.fulfilled, (state, action) => {
       state.items[action.payload.id] = action.payload;

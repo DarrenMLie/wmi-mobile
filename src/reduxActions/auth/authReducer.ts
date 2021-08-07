@@ -1,17 +1,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { signIn as signInApi } from 'clients/auth';
-import { SignInForm, SignUpForm } from 'models/auth';
+import { SignInForm } from 'src/models/auth';
 
 export const signIn = createAsyncThunk(
   'auth/signIn',
-  async (form: SignInForm, thunkAPI) => {
+  async (form: SignInForm, api) => {
     try {
       await signInApi(form);
-    } catch (e) {
-      throw e;
+    } catch(e) {
+      return api.rejectWithValue(e);
     }
-  }
-)
+  },
+);
 
 const authSlice = createSlice({
   name: 'auth',
@@ -19,8 +19,8 @@ const authSlice = createSlice({
     isAuthenticated: false,
   },
   reducers: {
-    logout(state) {
-      state.isAuthenticated = false
+    updateLoginState(state, action) {
+      state.isAuthenticated = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -32,6 +32,6 @@ const authSlice = createSlice({
 
 const { actions, reducer } = authSlice;
 
-export const { logout } = actions;
+export const { updateLoginState } = actions;
 
 export default reducer;

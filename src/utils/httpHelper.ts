@@ -8,7 +8,7 @@ interface headersType {
 }
 
 export async function makeRequest<T>(method: Method, url: string, body: T | null = null): Promise<AxiosRequestConfig> {
-  const jwt = await SecureStore.getItem('jwt');
+  const jwt = await SecureStore.getItem('access-token');
   const headers: headersType = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
