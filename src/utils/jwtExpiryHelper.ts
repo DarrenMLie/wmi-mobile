@@ -1,8 +1,11 @@
 import SecureStore from 'utils/secureStore';
-import { updateLoginState } from 'reduxActions/auth/authReducer';
+import { signOut } from 'reduxActions/auth/authReducer';
 import { createAccessToken } from 'clients/auth';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export async function execute(api: any, callback: (...funcArgs: any) => Promise<any>): Promise<any> {
+type ThunkAPI = Parameters<Parameters<typeof createAsyncThunk>[1]>[1]
+
+export async function execute(api: ThunkAPI, callback: (...funcArgs: any) => Promise<any>): Promise<any> {
   try {
     return await callback();
   } catch(e) {
@@ -15,7 +18,7 @@ export async function execute(api: any, callback: (...funcArgs: any) => Promise<
     const jwt = await createAccessToken();
     await SecureStore.setItem('access-token', jwt);
   } catch(e) {
-    api.dispatch(updateLoginState(false));
+    api.dispatch(signOut());
     throw e;
   }
 

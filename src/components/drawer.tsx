@@ -1,13 +1,13 @@
 import React from 'react';
 import { Text, View, ScrollView, TouchableOpacity, PixelRatio } from 'react-native';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { AppDispatch }  from 'reduxActions/store';
 import { DrawerActions } from '@react-navigation/native';
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { FontAwesome5 } from '@expo/vector-icons';
 import COLOR from 'constants/color';
-import { updateLoginState } from 'reduxActions/auth/authReducer';
+import { signOut } from 'reduxActions/auth/authReducer';
 
 const styles = EStyleSheet.create({
   upperContainer: {
@@ -74,13 +74,13 @@ const navigationList = [
 ];
 
 interface DrawerProps {
-  dispatch: Dispatch;
+  dispatch: AppDispatch;
   navigationProps: DrawerContentComponentProps;
 }
 
 class Drawer extends React.Component<DrawerProps> {
-  logout = () => {
-    this.props.dispatch(updateLoginState(false))
+  logout = async () => {
+    await this.props.dispatch(signOut());
   }
 
   render() {
