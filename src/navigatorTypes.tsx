@@ -2,6 +2,7 @@ export type LandingStackParamList = {
   Options: undefined;
   Login: undefined;
   Register: undefined;
+  MainContent: undefined;
 };
 
 export type DrawerStackParamList = {

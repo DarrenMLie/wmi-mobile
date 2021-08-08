@@ -47,7 +47,9 @@ const LandingOptionsPage = (props: LandingProps): JSX.Element => (
     >
       Online
     </Components.Button>
-    <Components.Button style={styles.button} onPress={() => {}}>
+    <Components.Button style={styles.button} onPress={() => {
+      props.navigation.navigate('MainContent');
+    }}>
       Offline
     </Components.Button>
   </ScrollView>

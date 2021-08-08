@@ -15,6 +15,7 @@ import MyProfile from 'pages/profile/myProfile';
 import EditProfileForm from 'pages/profile/editProfileForm';
 import { AppDispatch }  from 'reduxActions/store';
 import Components from 'components';
+import { navigationRef } from 'utils/navigationHelper';
 import { createStackNavigator } from '@react-navigation/stack';
 import { updateLoginState } from 'reduxActions/auth/authReducer';
 import { createDrawerNavigator, DrawerContentComponentProps } from '@react-navigation/drawer';
@@ -39,6 +40,21 @@ const styles = EStyleSheet.create({
 class App extends React.Component<AppProps> {
   async componentDidMount() {
     await this.props.dispatch(updateLoginState());
+  }
+
+  async componentDidUpdate(prevProps: AppProps) {
+    if (!prevProps.isAuthenticated && this.props.isAuthenticated) {
+      navigationRef.current?.resetRoot({
+        index: 0,
+        routes: [{ name: 'MainContent' }],
+      });
+    }
+    if (prevProps.isAuthenticated && !this.props.isAuthenticated) {
+      navigationRef.current?.resetRoot({
+        index: 0,
+        routes: [{ name: 'Options' }],
+      });
+    }
   }
 
   renderDrawer(props: DrawerContentComponentProps): React.ReactNode {
@@ -77,33 +93,37 @@ class App extends React.Component<AppProps> {
     )
   }
 
+  renderMainContent = () => {
+    return (
+      <DrawerStack.Navigator
+        drawerContent={this.renderDrawer}
+        initialRouteName="ItemList"
+      >
+        <DrawerStack.Screen name="ItemList" component={this.renderItemManager} />
+        <DrawerStack.Screen name="MyProfile" component={this.renderUserStack} />
+      </DrawerStack.Navigator>
+    );
+  }
+
   render(): React.ReactNode {
     return (
       <View style={styles.mainContainer}>
-        <NavigationContainer>
-          {this.props.isAuthenticated ? (
-            <DrawerStack.Navigator
-              drawerContent={this.renderDrawer}
-              initialRouteName="ItemList"
-            >
-              <DrawerStack.Screen name="ItemList" component={this.renderItemManager} />
-              <DrawerStack.Screen name="MyProfile" component={this.renderUserStack} />
-            </DrawerStack.Navigator>
-          ) : (
-            <LandingStack.Navigator
-              initialRouteName="Options"
-              screenOptions={{
-                headerShown: false,
-              }}
-            >
-              <LandingStack.Screen name="Options" component={Options} />
-              <LandingStack.Screen name="Login" component={Login} />
-              <LandingStack.Screen name="Register" component={Register} />
-            </LandingStack.Navigator>
-          )}
+        <NavigationContainer ref={navigationRef}>
+          <LandingStack.Navigator
+            initialRouteName="Options"
+            screenOptions={{
+              headerShown: false,
+              animationEnabled: false,
+            }}
+          >
+            <LandingStack.Screen name="Options" component={Options} />
+            <LandingStack.Screen name="Login" component={Login} />
+            <LandingStack.Screen name="Register" component={Register} />
+            <LandingStack.Screen name="MainContent" component={this.renderMainContent} />
+          </LandingStack.Navigator>
         </NavigationContainer>
       </View>
-    )
+    );
   }
 }
 

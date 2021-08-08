@@ -2,12 +2,13 @@ import React from 'react';
 import { Text, View, ScrollView, TouchableOpacity, PixelRatio } from 'react-native';
 import { connect } from 'react-redux';
 import { AppDispatch }  from 'reduxActions/store';
-import { DrawerActions } from '@react-navigation/native';
+import { DrawerActions, StackActions } from '@react-navigation/native';
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { FontAwesome5 } from '@expo/vector-icons';
 import COLOR from 'constants/color';
 import { signOut } from 'reduxActions/auth/authReducer';
+import { RootState } from 'reduxActions/store';
 
 const styles = EStyleSheet.create({
   upperContainer: {
@@ -45,7 +46,7 @@ const styles = EStyleSheet.create({
   }
 });
 
-const navigationList = [
+const onlineNavigationList = [
   {
     icon: 'search',
     text: 'Browse my items',
@@ -54,11 +55,6 @@ const navigationList = [
   {
     icon: 'plus',
     text: 'New item',
-    page: ''
-  },
-  {
-    icon: 'sync',
-    text: 'Backup & Sync',
     page: ''
   },
   {
@@ -73,7 +69,15 @@ const navigationList = [
   },
 ];
 
+const offlineNavigationList = onlineNavigationList.slice();
+offlineNavigationList.splice(4, 0, {
+  icon: 'sync',
+  text: 'Backup & Sync',
+  page: ''
+});
+
 interface DrawerProps {
+  isAuthenticated: boolean;
   dispatch: AppDispatch;
   navigationProps: DrawerContentComponentProps;
 }
@@ -84,6 +88,9 @@ class Drawer extends React.Component<DrawerProps> {
   }
 
   render() {
+    const { isAuthenticated } = this.props;
+    const navigationList = isAuthenticated ? onlineNavigationList : offlineNavigationList;
+
     return (
       <ScrollView>
         <View style={styles.upperContainer}>
@@ -130,7 +137,9 @@ class Drawer extends React.Component<DrawerProps> {
         ))}
         <TouchableOpacity
           style={styles.navigationItem}
-          onPress={this.logout}
+          onPress={isAuthenticated ? this.logout : () => {
+            this.props.navigationProps.navigation.dispatch(StackActions.popToTop);
+          }}
         >
           <FontAwesome5
             color={COLOR.darkCyan}
@@ -142,7 +151,7 @@ class Drawer extends React.Component<DrawerProps> {
           <Text
             style={styles.navigationText}
           >
-            Logout
+            {isAuthenticated ? 'Logout' : 'Back to Options'}
           </Text>
         </TouchableOpacity>
       </ScrollView>
@@ -150,4 +159,11 @@ class Drawer extends React.Component<DrawerProps> {
   }
 }
 
-export default connect()(Drawer);
+function mapStateToProps(state: RootState) {
+  console.log(state);
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+  };
+}
+
+export default connect(mapStateToProps)(Drawer);
