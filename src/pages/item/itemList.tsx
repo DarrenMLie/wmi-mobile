@@ -48,6 +48,7 @@ const styles = EStyleSheet.create({
   list: {
     paddingTop: '1rem',
     paddingBottom: '1rem',
+    flexGrow: 1,
   },
   separator: {
     height: '1rem',
@@ -63,6 +64,11 @@ const styles = EStyleSheet.create({
   },
   navigationTouchable: {
     padding: '0.375rem',
+  },
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
@@ -136,6 +142,13 @@ class ItemList extends React.Component<ItemListProps, {}> {
             <View style={styles.separator} />
           )}
           renderItem={this.renderItem}
+          ListEmptyComponent={
+            <View style={styles.emptyContainer}>
+              <Components.Text>
+                No items yet. Create one!
+              </Components.Text>
+            </View>
+          }
         />
       </View>
     );
@@ -144,7 +157,8 @@ class ItemList extends React.Component<ItemListProps, {}> {
 
 function mapStateToProps(state: RootState) {
   return {
-    items: state.item.itemIds.map(id => state.item.items[id]),
+    items: state.auth.isAuthenticated ? state.item.itemIds.map(id => state.item.items[id])
+      : Object.keys(state.item.offlineItems).map(id => state.item.offlineItems[id]),
   }
 }
 

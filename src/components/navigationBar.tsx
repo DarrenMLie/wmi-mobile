@@ -26,9 +26,16 @@ const styles = EStyleSheet.create({
   },
   navigationTouchable: {
     padding: '0.375rem',
+    zIndex: 10,
   },
   title: {
     alignSelf: 'center',
+    position: 'absolute',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: 0,
+    right: 0,
+    textAlign: 'center',
     color: COLOR.lighterCyan,
     fontWeight: 'bold',
     fontSize: '1.2rem',

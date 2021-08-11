@@ -42,9 +42,8 @@ const Feedback = (props: FeedbackProps): JSX.Element => {
           <Components.Text style={styles.text}>
             If you or any of your loved ones are struggling from hoarding behaviours, you can seek help by joining these communities:{'\n'}
             <Components.Text style={styles.link} onPress={() => Linking.openURL('https://www.reddit.com/r/ChildofHoarder/')}>r/ChildofHoarder{'\n'}</Components.Text>
-            <Components.Text style={styles.link} onPress={() => Linking.openURL('https://www.reddit.com/r/hoarding/')}>r/hoarding{'\n'}</Components.Text>
+            <Components.Text style={styles.link} onPress={() => Linking.openURL('https://www.reddit.com/r/hoarding/')}>r/hoarding</Components.Text>
           </Components.Text>
-  
           <Components.Text style={styles.text}>
             Special thanks to:{'\n'}
             roumanite{'\n'}

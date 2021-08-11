@@ -29,7 +29,8 @@ export const updateItem = createAsyncThunk(
   }
 );
 
-export const deleteItem = createAsyncThunk('item/deleteItem',
+export const deleteItem = createAsyncThunk(
+  'item/deleteItem',
   async(id: string, api) => {
     await execute(api, () => deleteItemApi(id));
     return id;
@@ -41,11 +42,15 @@ interface ItemState {
     [index: string]: Item,
   }
   itemIds: string[],
+  offlineItems: {
+    [index: string]: Item,
+  }
 }
 
 const initialState: ItemState = {
   items: {},
   itemIds: [],
+  offlineItems: {},
 }
 
 const itemSlice = createSlice({
