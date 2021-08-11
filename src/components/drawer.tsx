@@ -60,7 +60,7 @@ const onlineNavigationList = [
   {
     icon: 'comments',
     text: 'Feedback',
-    page: ''
+    page: 'Feedback'
   },
   { 
     icon: 'user-circle',

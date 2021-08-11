@@ -13,6 +13,7 @@ import CreateItemForm from 'pages/item/createItemForm';
 import EditItemForm from 'pages/item/editItemForm';
 import MyProfile from 'pages/profile/myProfile';
 import EditProfileForm from 'pages/profile/editProfileForm';
+import Feedback from 'pages/feedback';
 import { AppDispatch }  from 'reduxActions/store';
 import Components from 'components';
 import { navigationRef } from 'utils/navigationHelper';
@@ -101,6 +102,7 @@ class App extends React.Component<AppProps> {
       >
         <DrawerStack.Screen name="ItemList" component={this.renderItemManager} />
         <DrawerStack.Screen name="MyProfile" component={this.renderUserStack} />
+        <DrawerStack.Screen name="Feedback" component={Feedback} />
       </DrawerStack.Navigator>
     );
   }

@@ -8,6 +8,7 @@ export type LandingStackParamList = {
 export type DrawerStackParamList = {
   ItemList: undefined;
   MyProfile: undefined;
+  Feedback: undefined;
 }
 
 export type ItemStackParamList = {
