@@ -44,19 +44,43 @@ interface ItemState {
   itemIds: string[],
   offlineItems: {
     [index: string]: Item,
-  }
+  },
+  lastOfflineItemId: string,
 }
 
 const initialState: ItemState = {
   items: {},
   itemIds: [],
   offlineItems: {},
+  lastOfflineItemId: '0',
 }
 
 const itemSlice = createSlice({
   name: 'item',
   initialState,
-  reducers: {},
+  reducers: {
+    createOfflineItem(state, action) {
+      const id = (parseInt(state.lastOfflineItemId)+1).toString();
+      const item = {
+        "id": id,
+        "createdAt": Date.now(),
+      }
+      state.offlineItems[id] = { ...item, ...action.payload };
+      state.lastOfflineItemId = id;
+    },
+    toggleOfflineIsFavorite(state, action) {
+      state.offlineItems[action.payload.id].isFavorite = action.payload.isFavorite;
+    },
+    editOfflineItem(state, action) {
+      state.offlineItems[action.payload.id] = {
+        ...state.offlineItems[action.payload.id],
+        ...action.payload,
+      };
+    },
+    deleteOfflineItem(state, action) {
+      delete state.offlineItems[action.payload];
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(createItem.fulfilled, (state, action) => {
       state.items[action.payload.id] = action.payload;
@@ -79,5 +103,6 @@ const itemSlice = createSlice({
 })
 
 const { actions, reducer } = itemSlice;
+export const { createOfflineItem, toggleOfflineIsFavorite, editOfflineItem, deleteOfflineItem } = actions;
 
 export default reducer;

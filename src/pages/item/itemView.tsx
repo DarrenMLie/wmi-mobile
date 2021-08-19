@@ -137,7 +137,8 @@ class ItemView extends React.Component<ItemViewProps, {}> {
 
 function mapStateToProps(state: RootState, props: ItemViewProps) {
   return {
-    item: state.item.items[props.route.params.id],
+    item: state.auth.isAuthenticated ? state.item.items[props.route.params.id] :
+      state.item.offlineItems[props.route.params.id],
   }
 }
 

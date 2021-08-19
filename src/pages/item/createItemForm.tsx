@@ -6,13 +6,15 @@ import COLOR from 'constants/color';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ItemStackParamList } from 'navigatorTypes';
 import { connect } from 'react-redux';
-import { createItem } from 'reduxActions/item/itemReducer';
+import { createItem, createOfflineItem } from 'reduxActions/item/itemReducer';
 import { AppDispatch }  from 'reduxActions/store';
 import { unwrapResult } from '@reduxjs/toolkit';
+import { RootState } from 'reduxActions/store';
 
 interface CreateItemProps {
   dispatch: AppDispatch;
   navigation: StackNavigationProp<ItemStackParamList, 'CreateItemForm'>;
+  isAuthenticated: boolean;
 }
 
 interface CreateItemState {
@@ -58,7 +60,11 @@ class NewItemForm extends React.Component<CreateItemProps, CreateItemState> {
 
   save = async () => {
     try {
-      unwrapResult(await this.props.dispatch(createItem(this.state.form)));
+      if (this.props.isAuthenticated) {
+        unwrapResult(await this.props.dispatch(createItem(this.state.form)));
+      } else {
+        this.props.dispatch(createOfflineItem(this.state.form));
+      }
       this.props.navigation.goBack();
     } catch(e) {
       console.log(e);
@@ -116,4 +122,10 @@ class NewItemForm extends React.Component<CreateItemProps, CreateItemState> {
   }
 }
 
-export default connect()(NewItemForm);
+function mapStateToProps(state: RootState) {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+  }
+}
+
+export default connect(mapStateToProps)(NewItemForm);

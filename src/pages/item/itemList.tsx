@@ -13,8 +13,8 @@ import { CompositeNavigationProp } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { RootState } from 'reduxActions/store';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { getItems } from 'reduxActions/item/itemReducer';
-import { AppDispatch }  from 'reduxActions/store';
+import { getItems, toggleOfflineIsFavorite } from 'reduxActions/item/itemReducer';
+import { AppDispatch } from 'reduxActions/store';
 
 interface ItemListProps {
   dispatch: AppDispatch;
@@ -81,6 +81,10 @@ class ItemList extends React.Component<ItemListProps, {}> {
     }
   }
 
+  toggleIsFavorite = (id: string, isFavorite: boolean) => {
+    this.props.dispatch(toggleOfflineIsFavorite({ id, isFavorite }));
+  }
+
   renderItem = ({ item }: ListRenderItemInfo<Item>): React.ReactElement => {
     return (
       <TouchableOpacity
@@ -103,13 +107,16 @@ class ItemList extends React.Component<ItemListProps, {}> {
               {item.notes}
             </Components.Text>
           </View>
-          <View style={styles.heart}>
+          <TouchableOpacity
+            style={styles.heart}
+            onPress={() => { this.toggleIsFavorite(item.id, !item.isFavorite) }}
+          >
             <FontAwesome
               color={COLOR.darkCyan}
               name={item.isFavorite ? 'heart' : 'heart-o'}
               size={20}
             />
-          </View>
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     );

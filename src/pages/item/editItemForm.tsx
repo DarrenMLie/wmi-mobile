@@ -11,7 +11,7 @@ import { Item } from 'models/item';
 import { connect } from 'react-redux';
 import { RootState } from 'reduxActions/store';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { updateItem, deleteItem } from 'reduxActions/item/itemReducer';
+import { updateItem, deleteItem, editOfflineItem, deleteOfflineItem } from 'reduxActions/item/itemReducer';
 import { AppDispatch } from 'reduxActions/store';
 
 interface EditItemProps {
@@ -19,6 +19,7 @@ interface EditItemProps {
   navigation: StackNavigationProp<ItemStackParamList, 'EditItemForm'>;
   route: RouteProp<ItemStackParamList, 'EditItemForm'>;
   item: Item | undefined;
+  isAuthenticated: boolean;
 }
 
 interface EditItemState {
@@ -67,7 +68,11 @@ class EditItemForm extends React.Component<EditItemProps, EditItemState> {
 
   save = async () => {
     try {
-      unwrapResult(await this.props.dispatch(updateItem({...this.state.form, id: this.props.route.params.id })));
+      if (this.props.isAuthenticated) {
+        unwrapResult(await this.props.dispatch(updateItem({...this.state.form, id: this.props.route.params.id })));
+      } else {
+        this.props.dispatch(editOfflineItem({...this.state.form, id: this.props.route.params.id }));
+      }
       this.props.navigation.goBack();
     } catch(e) {
       console.log(e);
@@ -76,7 +81,11 @@ class EditItemForm extends React.Component<EditItemProps, EditItemState> {
 
   delete = async () => {
     try {
-      unwrapResult(await this.props.dispatch(deleteItem(this.props.route.params.id)));
+      if (this.props.isAuthenticated) {
+        unwrapResult(await this.props.dispatch(deleteItem(this.props.route.params.id)));
+      } else {
+        this.props.dispatch(deleteOfflineItem(this.props.route.params.id));
+      }
       this.props.navigation.navigate('ItemList');
     } catch(e) {
       console.log(e);
@@ -149,7 +158,9 @@ class EditItemForm extends React.Component<EditItemProps, EditItemState> {
 
 function mapStateToProps(state: RootState, props: EditItemProps) {
   return {
-    item: state.item.items[props.route.params.id],
+    isAuthenticated: state.auth.isAuthenticated,
+    item: state.auth.isAuthenticated ? state.item.items[props.route.params.id]
+      : state.item.offlineItems[props.route.params.id],
   }
 }
 
