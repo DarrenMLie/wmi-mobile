@@ -7,7 +7,7 @@ import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { FontAwesome5 } from '@expo/vector-icons';
 import COLOR from 'constants/color';
-import { signOut } from 'reduxActions/auth/authReducer';
+import { signOut } from 'reduxActions/auth/actions';
 import { RootState } from 'reduxActions/store';
 
 const styles = EStyleSheet.create({
@@ -160,7 +160,6 @@ class Drawer extends React.Component<DrawerProps> {
 }
 
 function mapStateToProps(state: RootState) {
-  console.log(state);
   return {
     isAuthenticated: state.auth.isAuthenticated,
   };

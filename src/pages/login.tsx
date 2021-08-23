@@ -5,10 +5,9 @@ import Components from 'components';
 import { LandingStackParamList } from 'navigatorTypes';
 import { StackNavigationProp } from '@react-navigation/stack';
 import COLOR from 'constants/color';
-import { signIn } from 'reduxActions/auth/authReducer';
+import { signIn } from 'reduxActions/auth/actions';
 import { AppDispatch }  from 'reduxActions/store';
 import { connect } from 'react-redux';
-import { unwrapResult } from '@reduxjs/toolkit';
 
 type NavigationProp = StackNavigationProp<LandingStackParamList, 'Login'>;
 

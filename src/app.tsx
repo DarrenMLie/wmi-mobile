@@ -18,7 +18,7 @@ import { AppDispatch }  from 'reduxActions/store';
 import Components from 'components';
 import { navigationRef } from 'utils/navigationHelper';
 import { createStackNavigator } from '@react-navigation/stack';
-import { updateLoginState } from 'reduxActions/auth/authReducer';
+import { updateLoginState } from 'reduxActions/auth/actions';
 import { createDrawerNavigator, DrawerContentComponentProps } from '@react-navigation/drawer';
 import { LandingStackParamList, DrawerStackParamList, ItemStackParamList, UserStackParamList } from 'navigatorTypes';
 

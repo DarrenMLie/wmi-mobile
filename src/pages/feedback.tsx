@@ -8,7 +8,7 @@ import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { Linking } from 'react-native';
 
 interface FeedbackProps {
-    navigation: DrawerNavigationProp<DrawerStackParamList, 'Feedback'>,
+  navigation: DrawerNavigationProp<DrawerStackParamList, 'Feedback'>,
 }
 
 const styles = EStyleSheet.create({
