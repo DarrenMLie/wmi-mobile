@@ -1,41 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { Item } from 'models/item';
-import {
-  getItemList,
-  updateItem as updateItemApi,
-  deleteItem as deleteItemApi,
-  createItem as createItemApi,
-} from 'clients/itemService';
-import { execute } from 'utils/jwtExpiryHelper';
-
-export const createItem = createAsyncThunk(
-  'item/createItem',
-  async(form: { name: string, notes: string }, api) => {
-    return execute(api, () => createItemApi(form));
-  }
-);
-
-export const getItems = createAsyncThunk(
-  'item/getItems',
-  async(undefined, api) => {
-    return execute(api, getItemList);
-  }
-);
-
-export const updateItem = createAsyncThunk(
-  'item/updateItem',
-  async (form: { id: string, name: string, notes: string }, api) => {
-    return execute(api, () => updateItemApi(form.id, form));
-  }
-);
-
-export const deleteItem = createAsyncThunk(
-  'item/deleteItem',
-  async(id: string, api) => {
-    await execute(api, () => deleteItemApi(id));
-    return id;
-  }
-);
+import { createItem, getItems, updateItem, deleteItem } from './actions';
 
 interface ItemState {
   items: {
@@ -97,6 +62,7 @@ const itemSlice = createSlice({
       state.items[action.payload.id] = action.payload;
     })
     builder.addCase(deleteItem.fulfilled, (state, action) => {
+      state.itemIds = state.itemIds.filter(id => id != action.payload);
       delete state.items[action.payload];
     })
   },

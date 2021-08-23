@@ -6,7 +6,8 @@ import COLOR from 'constants/color';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ItemStackParamList } from 'navigatorTypes';
 import { connect } from 'react-redux';
-import { createItem, createOfflineItem } from 'reduxActions/item/itemReducer';
+import { createItem } from 'reduxActions/item/actions';
+import { createOfflineItem } from 'reduxActions/item/reducer';
 import { AppDispatch }  from 'reduxActions/store';
 import { RootState } from 'reduxActions/store';
 

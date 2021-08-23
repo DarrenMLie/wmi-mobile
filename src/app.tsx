@@ -112,7 +112,7 @@ class App extends React.Component<AppProps> {
       <View style={styles.mainContainer}>
         <NavigationContainer ref={navigationRef}>
           <LandingStack.Navigator
-            initialRouteName="Options"
+            initialRouteName={this.props.isAuthenticated? "MainContent": "Options"}
             screenOptions={{
               headerShown: false,
               animationEnabled: false,
