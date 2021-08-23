@@ -11,6 +11,9 @@ import { signOut } from 'reduxActions/auth/actions';
 import { RootState } from 'reduxActions/store';
 
 const styles = EStyleSheet.create({
+  outerContainer: {
+    backgroundColor: COLOR.lightCyan,
+  },
   upperContainer: {
     backgroundColor: COLOR.darkModerateCyan,
     marginTop: '1.5rem',
@@ -33,7 +36,6 @@ const styles = EStyleSheet.create({
   },
   navigationItem: {
     flexDirection: 'row',
-    backgroundColor: COLOR.lightCyan,
     padding: '1rem',
   },
   icon: {
@@ -55,7 +57,7 @@ const onlineNavigationList = [
   {
     icon: 'plus',
     text: 'New item',
-    page: ''
+    page: 'CreateItemForm'
   },
   {
     icon: 'comments',
@@ -92,7 +94,7 @@ class Drawer extends React.Component<DrawerProps> {
     const navigationList = isAuthenticated ? onlineNavigationList : offlineNavigationList;
 
     return (
-      <ScrollView>
+      <ScrollView style={styles.outerContainer}>
         <View style={styles.upperContainer}>
           <View style={styles.heading}>
             <Text style={styles.appName}>

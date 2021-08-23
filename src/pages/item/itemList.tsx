@@ -12,8 +12,8 @@ import { DrawerStackParamList, ItemStackParamList } from 'navigatorTypes';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { RootState } from 'reduxActions/store';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { getItems, toggleOfflineIsFavorite } from 'reduxActions/item/itemReducer';
+import { getItems } from 'reduxActions/item/actions';
+import { toggleOfflineIsFavorite } from 'reduxActions/item/reducer';
 import { AppDispatch } from 'reduxActions/store';
 
 interface ItemListProps {
@@ -22,6 +22,7 @@ interface ItemListProps {
     DrawerNavigationProp<DrawerStackParamList, 'ItemList'>,
     StackNavigationProp<ItemStackParamList, 'ItemList'>
   >;
+  isAuthenticated: boolean;
   items: Item[];
 }
 
@@ -74,15 +75,23 @@ const styles = EStyleSheet.create({
 
 class ItemList extends React.Component<ItemListProps, {}> {
   async componentDidMount() {
+    if (this.props.isAuthenticated) {
+      await this.fetchOnlineItems();
+    }
+  }
+
+  fetchOnlineItems = async () => {
     try {
-      unwrapResult(await this.props.dispatch(getItems()));
+      await this.props.dispatch(getItems()).unwrap();
     } catch(e) {
       this.setState({ error: e.message });
     }
   }
 
   toggleIsFavorite = (id: string, isFavorite: boolean) => {
-    this.props.dispatch(toggleOfflineIsFavorite({ id, isFavorite }));
+    if (!this.props.isAuthenticated) {
+      this.props.dispatch(toggleOfflineIsFavorite({ id, isFavorite }));
+    }
   }
 
   renderItem = ({ item }: ListRenderItemInfo<Item>): React.ReactElement => {
@@ -148,6 +157,7 @@ class ItemList extends React.Component<ItemListProps, {}> {
           ItemSeparatorComponent={() => (
             <View style={styles.separator} />
           )}
+          keyExtractor={item => item.id}
           renderItem={this.renderItem}
           ListEmptyComponent={
             <View style={styles.emptyContainer}>
@@ -164,6 +174,7 @@ class ItemList extends React.Component<ItemListProps, {}> {
 
 function mapStateToProps(state: RootState) {
   return {
+    isAuthenticated: state.auth.isAuthenticated,
     items: state.auth.isAuthenticated ? state.item.itemIds.map(id => state.item.items[id])
       : Object.keys(state.item.offlineItems).map(id => state.item.offlineItems[id]),
   }

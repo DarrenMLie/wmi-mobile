@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { SignInForm, SignUpForm } from 'src/models/auth';
+import { SignInForm, SignUpForm } from 'models/auth';
 import SecureStore from 'utils/secureStore';
 import { ITEM_SERVICE_PROTOCOL, ITEM_SERVICE_HOST, ITEM_SERVICE_PORT } from '@env'
 import * as HttpHelper from 'utils/httpHelper';
