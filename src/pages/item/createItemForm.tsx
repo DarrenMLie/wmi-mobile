@@ -8,7 +8,6 @@ import { ItemStackParamList } from 'navigatorTypes';
 import { connect } from 'react-redux';
 import { createItem, createOfflineItem } from 'reduxActions/item/itemReducer';
 import { AppDispatch }  from 'reduxActions/store';
-import { unwrapResult } from '@reduxjs/toolkit';
 import { RootState } from 'reduxActions/store';
 
 interface CreateItemProps {
@@ -61,7 +60,7 @@ class NewItemForm extends React.Component<CreateItemProps, CreateItemState> {
   save = async () => {
     try {
       if (this.props.isAuthenticated) {
-        unwrapResult(await this.props.dispatch(createItem(this.state.form)));
+        await this.props.dispatch(createItem(this.state.form)).unwrap();
       } else {
         this.props.dispatch(createOfflineItem(this.state.form));
       }

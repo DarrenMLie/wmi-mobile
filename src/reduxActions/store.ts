@@ -12,7 +12,7 @@ import {
   REGISTER,
 } from 'redux-persist'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import AuthReducer from './auth/authReducer';
+import AuthReducer from './auth/reducer';
 import ItemReducer from './item/itemReducer';
 
 const rootReducer = combineReducers({

@@ -5,11 +5,15 @@ import Components from 'components';
 import { LandingStackParamList } from 'navigatorTypes';
 import { StackNavigationProp } from '@react-navigation/stack';
 import COLOR from 'constants/color';
-import { signUp } from 'clients/auth';
+import { AppDispatch }  from 'reduxActions/store';
+import { signUp } from 'reduxActions/auth/actions';
+import { connect } from 'react-redux';
+
 
 type NavigationProp = StackNavigationProp<LandingStackParamList, 'Register'>;
 
 interface RegisterProps {
+  dispatch: AppDispatch;
   navigation: NavigationProp;
 }
 
@@ -67,7 +71,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
 
   register = async (): Promise<void> => {
     try {
-      const response = await signUp(this.state.form);
+      await this.props.dispatch(signUp(this.state.form)).unwrap();
       this.props.navigation.goBack();
     } catch(error) {
       console.log(error);
@@ -137,4 +141,4 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   }
 }
 
-export default Register;
+export default connect()(Register);

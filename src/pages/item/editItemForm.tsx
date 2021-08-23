@@ -10,7 +10,6 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Item } from 'models/item';
 import { connect } from 'react-redux';
 import { RootState } from 'reduxActions/store';
-import { unwrapResult } from '@reduxjs/toolkit';
 import { updateItem, deleteItem, editOfflineItem, deleteOfflineItem } from 'reduxActions/item/itemReducer';
 import { AppDispatch } from 'reduxActions/store';
 
@@ -69,7 +68,7 @@ class EditItemForm extends React.Component<EditItemProps, EditItemState> {
   save = async () => {
     try {
       if (this.props.isAuthenticated) {
-        unwrapResult(await this.props.dispatch(updateItem({...this.state.form, id: this.props.route.params.id })));
+        await this.props.dispatch(updateItem({...this.state.form, id: this.props.route.params.id })).unwrap();
       } else {
         this.props.dispatch(editOfflineItem({...this.state.form, id: this.props.route.params.id }));
       }
