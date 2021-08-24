@@ -6,6 +6,7 @@ import Header from './header';
 import StatusBar from './statusBar';
 import Drawer from './drawer';
 import Text from './text';
+import Modal from './modal';
 
 export default {
   Button,
@@ -16,4 +17,5 @@ export default {
   StatusBar,
   Drawer,
   Text,
+  Modal,
 };
