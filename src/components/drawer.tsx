@@ -75,7 +75,7 @@ const offlineNavigationList = onlineNavigationList.slice();
 offlineNavigationList.splice(4, 0, {
   icon: 'sync',
   text: 'Backup & Sync',
-  page: ''
+  page: 'BackupAndSync'
 });
 
 interface DrawerProps {

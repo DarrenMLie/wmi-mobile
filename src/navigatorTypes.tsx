@@ -9,6 +9,7 @@ export type DrawerStackParamList = {
   ItemList: undefined;
   MyProfile: undefined;
   Feedback: undefined;
+  BackupAndSync: undefined;
 }
 
 export type ItemStackParamList = {
