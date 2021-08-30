@@ -26,7 +26,7 @@ class WhereIsMyItem extends React.Component<ExpoProps> {
   render(): React.ReactNode {
     return (
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor()}>
+        <PersistGate loading={null} persistor={persistor}>
         <App />
       </PersistGate>
       </Provider>
