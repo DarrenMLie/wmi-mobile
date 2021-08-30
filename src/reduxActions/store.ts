@@ -8,7 +8,6 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AuthReducer from './auth/reducer';
 import ItemReducer from './item/reducer';
-import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1';
 
 const rootReducer = combineReducers({
   auth: AuthReducer,
@@ -18,8 +17,6 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: [],
-  storageReconciler: autoMergeLevel1,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
