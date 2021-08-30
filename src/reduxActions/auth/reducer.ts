@@ -17,6 +17,9 @@ const authSlice = createSlice({
     builder.addCase(signOut.fulfilled, (state, action) => {
       state.isAuthenticated = false;
     })
+    builder.addDefaultCase((state) => {
+      return state;
+    })
   },
 })
 

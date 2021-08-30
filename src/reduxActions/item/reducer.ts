@@ -65,6 +65,9 @@ const itemSlice = createSlice({
       state.itemIds = state.itemIds.filter(id => id != action.payload);
       delete state.items[action.payload];
     })
+    builder.addDefaultCase((state) => {
+      return state;
+    })
   },
 })
 
